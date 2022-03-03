@@ -2,6 +2,8 @@
 {
     public class Task
     {
+        public Task() {}
+
         public Task(int id, Guid uuid, string title, string description, string source, DateTime createdAt, DateTime? assignedAt, DateTime? closedAt, string? payload, User? user, TaskState status)
         {
             Id = id;
