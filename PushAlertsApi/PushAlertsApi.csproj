@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PushAlertsApi.Models\PushAlertsApi.Models.csproj" />
+    <ProjectReference Include="..\PushAlertsApi.Persistency\PushAlertsApi.Persistency.csproj" />
   </ItemGroup>
 
 </Project>
