@@ -13,6 +13,6 @@ public class Tests
     public void Test1()
     {
         // Test CI
-        Assert.Pass();
+        Assert.Fail();
     }
 }
