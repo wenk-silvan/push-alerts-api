@@ -12,6 +12,7 @@ public class Tests
     [Test]
     public void Test1()
     {
+        // Test CI
         Assert.Pass();
     }
 }
