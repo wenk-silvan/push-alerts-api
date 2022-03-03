@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PushAlertsApi", "PushAlerts
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PushAlertsApi.Tests", "PushAlertsApi.Tests\PushAlertsApi.Tests.csproj", "{EDAC16EB-CCF1-404D-ABA6-2D73EF87EC84}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PushAlertsApi.Models", "PushAlertsApi.Models\PushAlertsApi.Models.csproj", "{7022C1A4-8593-4BDD-BA13-77D99DE4C2C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{EDAC16EB-CCF1-404D-ABA6-2D73EF87EC84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDAC16EB-CCF1-404D-ABA6-2D73EF87EC84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDAC16EB-CCF1-404D-ABA6-2D73EF87EC84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7022C1A4-8593-4BDD-BA13-77D99DE4C2C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7022C1A4-8593-4BDD-BA13-77D99DE4C2C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7022C1A4-8593-4BDD-BA13-77D99DE4C2C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7022C1A4-8593-4BDD-BA13-77D99DE4C2C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
