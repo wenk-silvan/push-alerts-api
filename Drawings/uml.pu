@@ -1,0 +1,65 @@
+@startuml
+
+package PushAlertsApi {
+    class ProjectController {
+        +IEnumerable<Project> Get()
+        +StatusCode Post(Task task)
+        -IEnumerable<Task> CreateFakeTasks()
+    }
+    class UserController {
+        +User Get()
+    }
+    class LoginController {
+        +StatusCode Post(String username, String password)
+    }
+    class VerifyController {
+        +String Post(String username, String code)
+    }
+}
+
+package PushAlertsApi.Models {
+    class Project {
+        +Guid Uuid
+        +String Name
+        +String Description
+        +IEnumerable<Task> Tasks
+    }
+
+    class Task {
+        +Int Id
+        +Guid Uuid
+        +String Title
+        +String Description
+        +String Source
+        +DateTime CreatedAt
+        +DateTime? AssignedAt
+        +DateTime? ClosedAt
+        +String? Payload
+        +User? User
+        +TaskState Status
+    }
+
+    enum TaskState {
+        OPENED
+        ASSIGNED
+        DONE
+        REJECTEDD
+    }
+
+    class User {
+        +Guid Uuid
+        +String Email
+    }
+}
+
+package PushAlertsApi.Persistency {
+}
+
+PushAlertsApi -- PushAlertsApi.Models
+PushAlertsApi -- PushAlertsApi.Persistency
+PushAlertsApi.Persistency -- PushAlertsApi.Models
+
+Task -- User
+Task -- TaskState
+Project -- Task
+@enduml
