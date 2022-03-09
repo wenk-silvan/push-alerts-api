@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PushAlertsApi.Models;
 
 namespace PushAlertsApi.Persistency
 {
     public class PushAlertsDbContext : DbContext
     {
-        public PushAlertsDbContext(DbContextOptions<PushAlertsDbContext> options) : base(options)
-        {
-            // TODO: Verify if constructor is needed.
-        }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Models.Task> Tasks { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

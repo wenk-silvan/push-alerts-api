@@ -1,13 +1,33 @@
+using System.Net.NetworkInformation;
 using Microsoft.AspNetCore.Mvc;
 using PushAlertsApi.Models;
+using Task = PushAlertsApi.Models.Task;
 
 namespace PushAlertsApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class ProjectsController: ControllerBase
+    [Route("api/[controller]")]
+    public class ProjectsController: ControllerBase         
     {
         private readonly ILogger<ProjectsController> _logger;
+
+        private static List<Project> _projects = new List<Project>()
+        {
+            new()
+            {
+                Description = "This is project Alpha ",
+                Name = "Alpha",
+                Tasks = CreateFakeTasks(),
+                Uuid = Guid.NewGuid()
+            },
+            new()
+            {
+                Description = "This is project Beta ",
+                Name = "Beta",
+                Tasks = CreateFakeTasks(),
+                Uuid = Guid.NewGuid()
+            }
+        };
 
         public ProjectsController(ILogger<ProjectsController> logger)
         {
@@ -15,19 +35,36 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpGet(Name = "GetProjects")]
-        public IEnumerable<Project> Get()
+        public async Task<ActionResult<IEnumerable<Project>>> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new Project
+            return Ok(_projects);
+        }
+            
+        [HttpGet("{uuid}", Name = "GetProjectByUuid")]
+        public async Task<ActionResult<Project>> Get(string uuid)
+        {
+            var project = _projects.Find(p => p.Uuid.ToString() == uuid);
+            if (project == null)
             {
-                Description = "",
-                Name = index.ToString(),
-                Tasks = CreateFakeTasks(),
-                Uuid = Guid.NewGuid()
-            })
-            .ToArray();
+                return BadRequest("Project not found.");
+            }
+
+            return Ok(project);
         }
 
-        private IEnumerable<Models.Task> CreateFakeTasks()
+        [HttpPost("{uuid}", Name = "PostTaskToProjectByUuid")]
+        public async Task<ActionResult<Project>> Post(string uuid, Task task)
+        {
+            var project = _projects.Find(p => p.Uuid.ToString() == uuid);
+            if (project == null)
+            {
+                return BadRequest("Project not found.");
+            }
+            project.Tasks.Add(task);
+            return Ok(project);
+        }
+
+        private static IList<Task> CreateFakeTasks()
         {
             return Enumerable.Range(1, 2).Select(index => new Models.Task
             {
@@ -43,7 +80,7 @@ namespace PushAlertsApi.Controllers
                     Status = TaskState.Opened,
                     Title = "Title"
             })
-                .ToArray();
+                .ToList();
         }
     }
 }
