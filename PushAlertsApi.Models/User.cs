@@ -2,12 +2,7 @@
 {
     public class User
     {
-        public User(Guid uuid, string email)
-        {
-            Uuid = uuid;
-            Email = email;
-        }
-
+        public int Id { get; set; }
         public Guid Uuid { get; set; }
         public string Email { get; set; }
     }

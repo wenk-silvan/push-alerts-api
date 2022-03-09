@@ -2,23 +2,6 @@
 {
     public class Task
     {
-        public Task() {}
-
-        public Task(int id, Guid uuid, string title, string description, string source, DateTime createdAt, DateTime? assignedAt, DateTime? closedAt, string? payload, User? user, TaskState status)
-        {
-            Id = id;
-            Uuid = uuid;
-            Title = title;
-            Description = description;
-            Source = source;
-            CreatedAt = createdAt;
-            AssignedAt = assignedAt;
-            ClosedAt = closedAt;
-            Payload = payload;
-            User = user;
-            Status = status;
-        }
-
         public int Id { get; set; }
         public Guid Uuid { get; set; }
         public string Title { get; set; }

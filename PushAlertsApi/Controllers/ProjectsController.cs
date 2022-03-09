@@ -64,7 +64,7 @@ namespace PushAlertsApi.Controllers
             return Ok(project);
         }
 
-        private static IList<Task> CreateFakeTasks()
+        private static List<Task> CreateFakeTasks()
         {
             return Enumerable.Range(1, 2).Select(index => new Models.Task
             {
