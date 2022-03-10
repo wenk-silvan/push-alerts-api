@@ -1,7 +1,6 @@
-using System.Net.NetworkInformation;
 using Microsoft.AspNetCore.Mvc;
 using PushAlertsApi.Models;
-using Task = PushAlertsApi.Models.Task;
+using PushAlertsApi.Models.Dto;
 
 namespace PushAlertsApi.Controllers
 {
@@ -11,16 +10,16 @@ namespace PushAlertsApi.Controllers
     {
         private readonly ILogger<ProjectsController> _logger;
 
-        private static List<Project> _projects = new List<Project>()
+        private static readonly List<ProjectDto> Projects = new()
         {
-            new()
+            new ProjectDto
             {
                 Description = "This is project Alpha ",
                 Name = "Alpha",
                 Tasks = CreateFakeTasks(),
                 Uuid = Guid.NewGuid()
             },
-            new()
+            new ProjectDto
             {
                 Description = "This is project Beta ",
                 Name = "Beta",
@@ -35,15 +34,15 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpGet(Name = "GetProjects")]
-        public async Task<ActionResult<IEnumerable<Project>>> Get()
+        public async Task<ActionResult<IEnumerable<ProjectDto>>> Get()
         {
-            return Ok(_projects);
+            return Ok(Projects);
         }
             
         [HttpGet("{uuid}", Name = "GetProjectByUuid")]
-        public async Task<ActionResult<Project>> Get(string uuid)
+        public async Task<ActionResult<ProjectDto>> Get(string uuid)
         {
-            var project = _projects.Find(p => p.Uuid.ToString() == uuid);
+            var project = Projects.Find(p => p.Uuid.ToString() == uuid);
             if (project == null)
             {
                 return BadRequest("Project not found.");
@@ -53,9 +52,9 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpPost("{uuid}", Name = "PostTaskToProjectByUuid")]
-        public async Task<ActionResult<Project>> Post(string uuid, Task task)
+        public async Task<ActionResult<ProjectDto>> Post(string uuid, TaskDto task)
         {
-            var project = _projects.Find(p => p.Uuid.ToString() == uuid);
+            var project = Projects.Find(p => p.Uuid.ToString() == uuid);
             if (project == null)
             {
                 return BadRequest("Project not found.");
@@ -64,9 +63,9 @@ namespace PushAlertsApi.Controllers
             return Ok(project);
         }
 
-        private static List<Task> CreateFakeTasks()
+        private static List<TaskDto> CreateFakeTasks()
         {
-            return Enumerable.Range(1, 2).Select(index => new Models.Task
+            return Enumerable.Range(1, 2).Select(index => new TaskDto
             {
                     Description = "Lorem ipsum",
                     User = null,
@@ -74,7 +73,6 @@ namespace PushAlertsApi.Controllers
                     AssignedAt = null,
                     ClosedAt = null,
                     CreatedAt = DateTime.Now,
-                    Id = index,
                     Payload = null,
                     Source = "Grafana",
                     Status = TaskState.Opened,
