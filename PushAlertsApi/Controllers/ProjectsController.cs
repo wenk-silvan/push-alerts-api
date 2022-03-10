@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PushAlertsApi.Data;
-using PushAlertsApi.Models;
 using PushAlertsApi.Models.Dto;
+using PushAlertsApi.Services;
 using Task = PushAlertsApi.Models.Task;
 
 namespace PushAlertsApi.Controllers
@@ -13,34 +13,21 @@ namespace PushAlertsApi.Controllers
     {
         private readonly ILogger<ProjectsController> _logger;
 
-        private static readonly List<ProjectDto> Projects = new()
-        {
-            new ProjectDto
-            {
-                Description = "This is project Alpha ",
-                Name = "Alpha",
-                Uuid = Guid.NewGuid()
-            },
-            new ProjectDto
-            {
-                Description = "This is project Beta ",
-                Name = "Beta",
-                Uuid = Guid.NewGuid()
-            }
-        };
-
         private readonly DataContext _context;
+
+        private readonly ProjectsService _projectsService;
 
         public ProjectsController(ILogger<ProjectsController> logger, DataContext context)
         {
             _logger = logger;
             _context = context;
+            _projectsService = new ProjectsService(context);
         }
 
         [HttpGet(Name = "GetProjects")]
         public async Task<ActionResult<IEnumerable<ProjectDto>>> Get()
         {
-            return Ok(ProjectDto.CopyAll(await _context.Projects.ToListAsync()));
+            return Ok(await _projectsService.GetAllProjects());
         }
 
         [HttpGet("{uuid}", Name = "GetTasksByProjectUuid")]
@@ -93,24 +80,6 @@ namespace PushAlertsApi.Controllers
                 _logger.LogError(ex.Message);
                 return BadRequest("Invalid project UUID");
             }
-        }
-
-        private static List<TaskDto> CreateFakeTasks()
-        {
-            return Enumerable.Range(1, 2).Select(index => new TaskDto
-                {
-                    Description = "Lorem ipsum",
-                    User = null,
-                    Uuid = Guid.NewGuid(),
-                    AssignedAt = null,
-                    ClosedAt = null,
-                    CreatedAt = DateTime.Now,
-                    Payload = null,
-                    Source = "Grafana",
-                    Status = TaskState.Opened,
-                    Title = "Title"
-                })
-                .ToList();
         }
     }
 }
