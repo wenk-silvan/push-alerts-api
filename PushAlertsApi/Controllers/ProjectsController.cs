@@ -49,6 +49,7 @@ namespace PushAlertsApi.Controllers
             try
             {
                 var project = await _context.Projects.FirstAsync(p => p.Uuid == Guid.Parse(uuid));
+                var tasks = await _context.Tasks.Where(t => t.ProjectId == project.Id).ToListAsync(); // TODO: Clarify why this statement is needed.
                 var result = TaskDto.CopyAll(project.Tasks);
                 return Ok(result);
             }
