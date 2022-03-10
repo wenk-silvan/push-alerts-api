@@ -2,6 +2,17 @@
 {
     public class Task
     {
+        public Task(string title, string description, string source, string? payload)
+        {
+            Uuid = Guid.NewGuid();
+            Title = title;
+            Description = description;
+            Source = source;
+            CreatedAt = DateTime.Now;
+            Payload = payload;
+            Status = TaskState.Opened;
+        }
+
         public int Id { get; set; }
         public Guid Uuid { get; set; }
         public string Title { get; set; }
