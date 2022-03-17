@@ -21,7 +21,7 @@ namespace PushAlertsApi.Controllers
         {
             _logger = logger;
             _context = context;
-            _projectsService = new ProjectsService(context);
+            _projectsService = new ProjectsService(context.Projects);
         }
 
         [HttpGet(Name = "GetProjects")]

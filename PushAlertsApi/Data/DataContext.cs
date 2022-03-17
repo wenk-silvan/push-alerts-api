@@ -8,8 +8,8 @@ namespace PushAlertsApi.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<Task> Tasks { get; set; }
-        public DbSet<User> Users { get; set; }
+        public virtual DbSet<Project> Projects { get; set; }
+        public virtual DbSet<Task> Tasks { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }
