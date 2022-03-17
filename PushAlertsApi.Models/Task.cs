@@ -2,6 +2,8 @@
 {
     public class Task
     {
+        public Task() {}
+
         public Task(string title, string description, string source, string? payload)
         {
             Uuid = Guid.NewGuid();
