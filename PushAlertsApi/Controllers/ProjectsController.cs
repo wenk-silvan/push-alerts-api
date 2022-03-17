@@ -17,68 +17,68 @@ namespace PushAlertsApi.Controllers
 
         private readonly ProjectsService _projectsService;
 
+        private readonly TasksService _tasksService;
+
         public ProjectsController(ILogger<ProjectsController> logger, DataContext context)
         {
             _logger = logger;
             _context = context;
-            _projectsService = new ProjectsService(context.Projects);
+            _projectsService = new ProjectsService(logger, context.Projects);
+            _tasksService = new TasksService(logger, context.Tasks);
         }
 
-        [HttpGet(Name = "GetProjects")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<ProjectDto>>> Get()
         {
-            return Ok(await _projectsService.GetAllProjects());
+            try
+            {
+                return Ok(await _projectsService.GetAllProjects());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
+                                 $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
+                return BadRequest($"Unexpected error: No projects could be loaded.");
+            }
         }
 
-        [HttpGet("{uuid}", Name = "GetTasksByProjectUuid")]
+        [HttpGet("{uuid}")]
         public async Task<ActionResult<IEnumerable<TaskDto>>> Get(string uuid)
         {
             try
             {
-                var project = await _context.Projects.FirstAsync(p => p.Uuid == Guid.Parse(uuid));
-                var tasks = await _context.Tasks.Where(t => t.ProjectId == project.Id).ToListAsync(); // TODO: Clarify why this statement is needed.
-                var result = TaskDto.CopyAll(project.Tasks);
+                var project = await _projectsService.GetProject(uuid);
+                var result = await _tasksService.GetTasks(project);
                 return Ok(result);
             }
-            catch (ArgumentNullException ex)
+            catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                return BadRequest("Invalid project UUID");
-            }
-            catch (FormatException ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest("Invalid project UUID");
+                _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
+                                 $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
+                return BadRequest($"Unexpected error: No tasks could be loaded for uuid: '{uuid}'.");
             }
         }
 
-        [HttpPost("{uuid}", Name = "PostTaskByProjectUuid")]
+        [HttpPost("{uuid}")]
         public async Task<ActionResult<TaskDto>> Post(string uuid, TaskDto task)
         {
             try
             {
-                var project = await _context.Projects.FirstAsync(p => p.Uuid == Guid.Parse(uuid));
-                var newTask = new Models.Task(
-                    task.Title,
-                    task.Description,
-                    task.Source,
-                    task.Payload
-                );
-                project.Tasks ??= new List<Task>();
-                project.Tasks.Add(newTask);
-                var x = _context.Projects.Update(project).Entity;
+                var newTask = await _projectsService.AddTask(uuid, task);
                 await _context.SaveChangesAsync();
-                return Ok(TaskDto.Copy(newTask));
+                return Ok(newTask);
             }
             catch (ArgumentNullException ex)
             {
-                _logger.LogError(ex.Message);
-                return BadRequest("Invalid project UUID");
+                _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
+                                 $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
+                return BadRequest($"Unexpected error: Task could not be add : '{uuid}'.");
             }
             catch (FormatException ex)
             {
-                _logger.LogError(ex.Message);
-                return BadRequest("Invalid project UUID");
+                _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
+                                 $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
+                return BadRequest($"Unexpected error: No tasks could be loaded for uuid: '{uuid}'.");
             }
         }
     }

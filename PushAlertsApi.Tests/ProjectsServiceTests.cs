@@ -4,12 +4,16 @@ using NSubstitute;
 using PushAlertsApi.Models;
 using PushAlertsApi.Services;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using MockQueryable.NSubstitute;
+using PushAlertsApi.Controllers;
 
 namespace PushAlertsApi.Tests
 {
     public class ProjectsServiceTests
     {
+        private readonly ILogger<ProjectsController> _logger = new LoggerFactory().CreateLogger<ProjectsController>();
+
         [SetUp]
         public void Setup()
         {
@@ -42,7 +46,7 @@ namespace PushAlertsApi.Tests
             };
 
             // Act
-            var projectsService = new ProjectsService(expected.AsQueryable().BuildMockDbSet());
+            var projectsService = new ProjectsService(_logger, expected.AsQueryable().BuildMockDbSet());
             var actual = projectsService.GetAllProjects().Result.ToList();
 
             // Assert
@@ -58,7 +62,7 @@ namespace PushAlertsApi.Tests
             List<Project> expected = new();
 
             // Act
-            var projectsService = new ProjectsService(expected.AsQueryable().BuildMockDbSet());
+            var projectsService = new ProjectsService(_logger, expected.AsQueryable().BuildMockDbSet());
             var actual = projectsService.GetAllProjects().Result.ToList();
 
             // Assert
