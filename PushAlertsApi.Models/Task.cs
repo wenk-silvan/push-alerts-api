@@ -2,15 +2,16 @@
 {
     public class Task
     {
-        public Task() {}
+        public Task() { }
 
-        public Task(string title, string description, string source, string? payload)
+        public Task(string title, string description, string source, string? payload, int projectId)
         {
             Uuid = Guid.NewGuid();
             Title = title;
             Description = description;
             Source = source;
             CreatedAt = DateTime.Now;
+            ProjectId = projectId;
             Payload = payload;
             Status = TaskState.Opened;
         }

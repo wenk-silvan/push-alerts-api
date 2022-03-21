@@ -8,13 +8,13 @@ namespace PushAlertsApi.Services
 {
     public class ProjectsService
     {
-        private readonly ILogger<ProjectsController> _logger;
+        private readonly ILogger<ProjectsService> _logger;
 
         private readonly DbSet<Project> _dbSet;
 
-        public ProjectsService(ILogger<ProjectsController> logger, DbSet<Project> context)
+        public ProjectsService(DbSet<Project> context)
         {
-            _logger = logger;
+            _logger = new LoggerFactory().CreateLogger<ProjectsService>();
             _dbSet = context;
         }
 
@@ -28,23 +28,12 @@ namespace PushAlertsApi.Services
         public async Task<Project> GetProject(string uuid)
         {
             var project = await _dbSet.FirstAsync(p => p.Uuid == Guid.Parse(uuid));
+            if (project == null)
+            {
+                throw new ArgumentNullException(nameof(project), "No project found.");
+            }
             _logger.LogInformation($"Fetched project from database with uuid: '{uuid}'.");
             return project;
-        }
-
-        public async Task<TaskDto> AddTask(string uuid, TaskDto task)
-        {
-            var project = await _dbSet.FirstAsync(p => p.Uuid == Guid.Parse(uuid));
-            var newTask = new Models.Task(
-                task.Title,
-                task.Description,
-                task.Source,
-                task.Payload
-            );
-            project.Tasks ??= new List<Models.Task>();
-            project.Tasks.Add(newTask);
-            _dbSet.Update(project);
-            return TaskDto.Copy(newTask);
         }
     }
 }
