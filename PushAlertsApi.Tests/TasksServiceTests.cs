@@ -297,6 +297,64 @@ namespace PushAlertsApi.Tests
         }
 
         [Test]
+        public void CloseTask_NotYetAssigned()
+        {
+            // Arrange
+            var alice = new User("alice@company.com");
+            var expectedState = TaskState.Done;
+            List<Task> expectedTasks = new()
+            {
+                new Task("Task A", "Description A", "Unit Test", 1, null),
+                new Task("Task B", "Description B", "Unit Test", 1, null)
+            };
+            var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
+            string uuid = expectedTasks.First().Uuid.ToString();
+
+            // Act & Assert
+            Assert.Throws<InvalidOperationException>(() => tasksService.CloseTask(uuid, expectedState));
+        }
+
+        [Test]
+        public void CloseTask_AlreadyRejected()
+        {
+            // Arrange
+            var alice = new User("alice@company.com");
+            var expectedState = TaskState.Done;
+            List<Task> expectedTasks = new()
+            {
+                new Task("Task A", "Description A", "Unit Test", 1, null),
+                new Task("Task B", "Description B", "Unit Test", 1, null)
+            };
+            var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
+            string uuid = expectedTasks.First().Uuid.ToString();
+
+            // Act & Assert
+            tasksService.AssignTask(uuid, alice);
+            tasksService.CloseTask(uuid, expectedState);
+            Assert.Throws<InvalidOperationException>(() => tasksService.CloseTask(uuid, expectedState));
+        }
+
+        [Test]
+        public void CloseTask_AlreadyDone()
+        {
+            // Arrange
+            var alice = new User("alice@company.com");
+            var expectedState = TaskState.Done;
+            List<Task> expectedTasks = new()
+            {
+                new Task("Task A", "Description A", "Unit Test", 1, null),
+                new Task("Task B", "Description B", "Unit Test", 1, null)
+            };
+            var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
+            string uuid = expectedTasks.First().Uuid.ToString();
+
+            // Act & Assert
+            tasksService.AssignTask(uuid, alice);
+            tasksService.CloseTask(uuid, TaskState.Done);
+            Assert.Throws<InvalidOperationException>(() => tasksService.CloseTask(uuid, expectedState));
+        }
+
+        [Test]
         public void GetTask_Normal()
         {
             // Arrange
@@ -343,50 +401,6 @@ namespace PushAlertsApi.Tests
 
             // Act & Assert
             Assert.Throws<ArgumentException>(() => tasksService.GetTask(uuid));
-        }
-
-        [Test]
-        public void GetTasks_Normal()
-        {
-            // Arrange
-            var projectId = 1;
-            List<Task> expectedTasks = new()
-            {
-                new Task("Task A", "Description A", "Unit Test", projectId, null),
-                new Task("Task B", "Description B", "Unit Test", projectId, null)
-            };
-            List<Project> expectedProjects = new()
-            {
-                new Project
-                {
-                    Description = "This is project Alpha.",
-                    Id = projectId,
-                    Name = "Alpha",
-                    Tasks = null,
-                    Users = null,
-                    Uuid = Guid.NewGuid()
-                },
-                new Project
-                {
-                    Description = "This is project Beta.",
-                    Id = 2,
-                    Name = "Beta",
-                    Tasks = null,
-                    Users = null,
-                    Uuid = Guid.NewGuid()
-                }
-            };
-            var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            var projectsService = new ProjectsService(expectedProjects.AsQueryable().BuildMockDbSet());
-
-            // Act 
-            var project = expectedProjects.First(p => p.Id == 1);
-            var actual = tasksService.GetTasks(project);
-
-            // Assert
-            Assert.NotNull(actual);
-            Assert.NotNull(actual.Result);
-            Assert.AreEqual(expectedTasks.Count, actual.Result.Count);
         }
     }
 }

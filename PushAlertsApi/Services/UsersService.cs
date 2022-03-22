@@ -17,9 +17,9 @@ namespace PushAlertsApi.Services
             _dbSet = context;
         }
 
-        public async Task<User> GetUser(string uuid)
+        public User GetUser(string uuid)
         {
-            var user = await _dbSet.FirstAsync(u => u.Uuid == Guid.Parse(uuid));
+            var user = _dbSet.First(u => u.Uuid == Guid.Parse(uuid));
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user), "No user found.");

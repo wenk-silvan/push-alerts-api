@@ -41,22 +41,5 @@ namespace PushAlertsApi.Controllers
                 return BadRequest($"Unexpected error: No projects could be loaded.");
             }
         }
-
-        [HttpGet("{uuid}")]
-        public async Task<ActionResult<IEnumerable<TaskDto>>> Get(string uuid)
-        {
-            try
-            {
-                var project = await _projectsService.GetProject(uuid);
-                var result = await _tasksService.GetTasks(project);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
-                                 $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
-                return BadRequest($"Unexpected error: No tasks could be loaded for uuid: '{uuid}'.");
-            }
-        }
     }
 }

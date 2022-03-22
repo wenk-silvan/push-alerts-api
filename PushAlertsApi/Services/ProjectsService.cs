@@ -25,9 +25,9 @@ namespace PushAlertsApi.Services
             return ProjectDto.CopyAll(projects);
         }
 
-        public async Task<Project> GetProject(string uuid)
+        public Project GetProject(string uuid)
         {
-            var project = await _dbSet.FirstAsync(p => p.Uuid == Guid.Parse(uuid));
+            var project = _dbSet.First(p => p.Uuid == Guid.Parse(uuid));
             if (project == null)
             {
                 throw new ArgumentNullException(nameof(project), "No project found.");

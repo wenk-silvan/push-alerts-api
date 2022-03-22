@@ -7,7 +7,7 @@ namespace PushAlertsApi.Models
         public int Id { get; set;  }
         public Guid Uuid { get; set;  }
         public string Email { get; set; }
-        public List<Project>? Projects { get; set; }
+        public virtual List<Project>? Projects { get; set; } = new();
 
         public User(string email)
         {

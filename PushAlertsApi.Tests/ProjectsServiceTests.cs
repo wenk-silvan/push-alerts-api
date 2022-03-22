@@ -104,7 +104,7 @@ namespace PushAlertsApi.Tests
 
             // Act
             var projectsService = new ProjectsService(expected.AsQueryable().BuildMockDbSet());
-            var actual = projectsService.GetProject("817756de-31f7-4537-844d-6beea0159002").Result;
+            var actual = projectsService.GetProject("817756de-31f7-4537-844d-6beea0159002");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -122,7 +122,7 @@ namespace PushAlertsApi.Tests
             var projectsService = new ProjectsService(expected.AsQueryable().BuildMockDbSet());
 
             // Assert
-            Assert.ThrowsAsync<TargetInvocationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 projectsService.GetProject("817756de-31f7-4537-844d-6beea0159002"));
         }
 
@@ -156,7 +156,7 @@ namespace PushAlertsApi.Tests
             var projectsService = new ProjectsService(expected.AsQueryable().BuildMockDbSet());
 
             // Assert
-            Assert.ThrowsAsync<TargetInvocationException>(() =>
+            Assert.Throws<FormatException>(() =>
                 projectsService.GetProject("-"));
         }
     }

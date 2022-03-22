@@ -19,7 +19,7 @@ namespace PushAlertsApi.Services
             _dbSet = context;
         }
 
-        public async Task<Models.Task> AddTask(Project project, TaskDto task)
+        public Task AddTask(Project project, TaskDto task)
         {
             var tasks = new Task(
                 task.Title,
@@ -28,7 +28,7 @@ namespace PushAlertsApi.Services
                 project.Id,
                 task.Payload
             );
-            var result = await _dbSet.AddAsync(tasks);
+            var result = _dbSet.Add(tasks);
             _logger.LogInformation($"Added new task with uuid: '{task.Uuid}' to project with uuid: '{project.Uuid}'");
             return result.Entity;
         }
@@ -50,11 +50,13 @@ namespace PushAlertsApi.Services
             if (status != TaskState.Done && status != TaskState.Rejected)
             {
                 string error =
-                    $"Invalid state of task, must be either {TaskState.Done} or {TaskState.Rejected}: '{status}'";
+                    $"The provided task state must be either {TaskState.Done} or {TaskState.Rejected}: '{status}'";
                 _logger.LogDebug(error);
                 throw new ArgumentException(error);
             }
             var dbTask = GetTask(uuid);
+            if (dbTask.Status != TaskState.Assigned)
+                throw new InvalidOperationException($"Can't close a task with uuid: '{uuid} 'which is not Assigned");
             dbTask.Status = status;
             dbTask.ClosedAt = DateTime.Now;
             _logger.LogInformation($"Closed task with uuid: '{uuid}' and set state to: '{dbTask.Status}'");
@@ -71,14 +73,6 @@ namespace PushAlertsApi.Services
             }
             _logger.LogInformation($"Fetched one task from DB for uuid: '{uuid}' with id: '{task.Id}'");
             return task;
-        }
-
-        public async Task<ICollection<TaskDto>> GetTasks(Project project)
-        {
-            var tasks = await _dbSet.Where(t => t.ProjectId == project.Id).ToListAsync();
-            _logger.LogInformation(
-                $"Fetched {tasks.Count} tasks from project with uuid '{project.Uuid}' from database.");
-            return TaskDto.CopyAll(project.Tasks);
         }
     }
 }

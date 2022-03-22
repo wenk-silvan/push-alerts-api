@@ -31,14 +31,31 @@ namespace PushAlertsApi.Controllers
             _usersService = new UsersService(context.Users);
         }
 
-        [HttpPost("{uuidProject}")]
-        public async Task<ActionResult<TaskDto>> Post(string uuidProject, TaskDto task)
+        [HttpGet("{uuid}")]
+        public ActionResult<IEnumerable<TaskDto>> Get(string uuid)
         {
             try
             {
-                var project = await _projectsService.GetProject(uuidProject);
-                var newTask = await _tasksService.AddTask(project, task);
-                await _context.SaveChangesAsync();
+                var project = _projectsService.GetProject(uuid);
+                var tasks = TaskDto.CopyAll(project.Tasks);
+                return Ok(tasks);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
+                                 $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
+                return BadRequest($"Unexpected error: No tasks could be loaded for uuid: '{uuid}'.");
+            }
+        }
+
+        [HttpPost("{uuidProject}")]
+        public ActionResult<TaskDto> Post(string uuidProject, TaskDto task)
+        {
+            try
+            {
+                var project = _projectsService.GetProject(uuidProject);
+                var newTask = _tasksService.AddTask(project, task);
+                _context.SaveChanges();
                 return Ok(newTask);
             }
             catch (ArgumentNullException ex)
@@ -56,13 +73,13 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpPut("{uuidTask}/assign/{uuidUser}")]
-        public async Task<ActionResult<TaskDto>> Put(string uuidTask, string uuidUser)
+        public ActionResult<TaskDto> Put(string uuidTask, string uuidUser)
         {
             try
             {
-                var user = await _usersService.GetUser(uuidUser);
+                var user = _usersService.GetUser(uuidUser);
                 _tasksService.AssignTask(uuidTask, user);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return Ok();
             }
             catch (Exception ex)
@@ -74,12 +91,12 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpPut("{uuidTask}/close/")]
-        public async Task<ActionResult<TaskDto>> Put(string uuidTask, TaskState status)
+        public ActionResult<TaskDto> Put(string uuidTask, TaskState status)
         {
             try
             {
                 _tasksService.CloseTask(uuidTask, status);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return Ok();
             }
             catch (Exception ex)

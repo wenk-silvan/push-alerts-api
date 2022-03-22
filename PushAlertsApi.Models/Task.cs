@@ -26,7 +26,7 @@
         public DateTime? AssignedAt { get; set; }
         public DateTime? ClosedAt { get; set; }
         public string? Payload { get; set; }
-        public User? User { get; set; }
+        public virtual User? User { get; set; }
         public TaskState Status { get; set; }
     }
 }

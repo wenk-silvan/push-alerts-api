@@ -12,7 +12,7 @@
             {
                 Uuid = dbUser.Uuid,
                 Email = dbUser.Email,
-                // TODO: Handle Project UUIDs
+                ProjectUuids = dbUser.Projects.Select(p => p.Uuid).ToList(),
             };
         }
     }

@@ -10,7 +10,7 @@
         public DateTime? AssignedAt { get; set; }
         public DateTime? ClosedAt { get; set; }
         public string? Payload { get; set; }
-        public UserDto? User { get; set; }
+        public string? UserEmail{ get; set; }
         public TaskState Status { get; set; }
 
         public static ICollection<TaskDto> CopyAll(ICollection<Task> dbTasks)
@@ -26,7 +26,7 @@
                 Description = dbTask.Description,
                 Uuid = dbTask.Uuid,
                 Title = dbTask.Title,
-                User = dbTask.User == null ? null : UserDto.Copy(dbTask.User),
+                UserEmail = dbTask.User?.Email,
                 CreatedAt = dbTask.CreatedAt,
                 AssignedAt = dbTask.AssignedAt,
                 ClosedAt = dbTask.ClosedAt,
