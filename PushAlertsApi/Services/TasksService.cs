@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection.Metadata;
+using Microsoft.EntityFrameworkCore;
 using PushAlertsApi.Controllers;
 using PushAlertsApi.Models;
 using PushAlertsApi.Models.Dto;
@@ -18,35 +19,66 @@ namespace PushAlertsApi.Services
             _dbSet = context;
         }
 
-        public async Task<ICollection<TaskDto>> GetTasks(Project project)
-        {
-            var tasks = await _dbSet.Where(t => t.ProjectId == project.Id).ToListAsync();
-            _logger.LogInformation(
-                $"Fetched {tasks.Count} tasks from project with uuid '{project.Uuid}' from database.");
-            return TaskDto.CopyAll(project.Tasks);
-        }
-
         public async Task<Models.Task> AddTask(Project project, TaskDto task)
         {
             var tasks = new Task(
                 task.Title,
                 task.Description,
                 task.Source,
-                task.Payload,
-                project.Id
+                project.Id,
+                task.Payload
             );
             var result = await _dbSet.AddAsync(tasks);
+            _logger.LogInformation($"Added new task with uuid: '{task.Uuid}' to project with uuid: '{project.Uuid}'");
             return result.Entity;
         }
 
         public void AssignTask(string uuid, User user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            var dbTask = _dbSet.First(t => t.Uuid == Guid.Parse(uuid));
+            var dbTask = GetTask(uuid);
+            if (dbTask.Status != TaskState.Opened) throw new InvalidOperationException($"Can't assign task with Status: '{dbTask.Status}'");
             dbTask.AssignedAt = DateTime.Now;
             dbTask.Status = TaskState.Assigned;
             dbTask.User = user;
             _dbSet.Update(dbTask);
+            _logger.LogInformation($"Assigned task with uuid: '{uuid}' to user with uuid: '{user.Uuid}'");
+        }
+
+        public void CloseTask(string uuid, TaskState status)
+        {
+            if (status != TaskState.Done && status != TaskState.Rejected)
+            {
+                string error =
+                    $"Invalid state of task, must be either {TaskState.Done} or {TaskState.Rejected}: '{status}'";
+                _logger.LogDebug(error);
+                throw new ArgumentException(error);
+            }
+            var dbTask = GetTask(uuid);
+            dbTask.Status = status;
+            dbTask.ClosedAt = DateTime.Now;
+            _logger.LogInformation($"Closed task with uuid: '{uuid}' and set state to: '{dbTask.Status}'");
+        }
+
+        public Task GetTask(string uuid)
+        {
+            var task = _dbSet.FirstOrDefault(t => t.Uuid == Guid.Parse(uuid));
+            if (task == null)
+            {
+                string error = $"No task found in DB for uuid: '{uuid}'";
+                _logger.LogDebug(error);
+                throw new ArgumentException(error);
+            }
+            _logger.LogInformation($"Fetched one task from DB for uuid: '{uuid}' with id: '{task.Id}'");
+            return task;
+        }
+
+        public async Task<ICollection<TaskDto>> GetTasks(Project project)
+        {
+            var tasks = await _dbSet.Where(t => t.ProjectId == project.Id).ToListAsync();
+            _logger.LogInformation(
+                $"Fetched {tasks.Count} tasks from project with uuid '{project.Uuid}' from database.");
+            return TaskDto.CopyAll(project.Tasks);
         }
     }
 }

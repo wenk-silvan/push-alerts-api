@@ -18,9 +18,9 @@ namespace PushAlertsApi.Services
             _dbSet = context;
         }
 
-        public async Task<ICollection<ProjectDto>> GetAllProjects()
+        public ICollection<ProjectDto> GetAllProjects()
         {
-            var projects = await _dbSet.ToListAsync();
+            var projects = _dbSet.ToList();
             _logger.LogInformation($"Fetched {projects.Count} projects from database.");
             return ProjectDto.CopyAll(projects);
         }

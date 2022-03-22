@@ -48,7 +48,7 @@ namespace PushAlertsApi.Tests
 
             // Act
             var projectsService = new ProjectsService(expected.AsQueryable().BuildMockDbSet());
-            var actual = projectsService.GetAllProjects().Result.ToList();
+            var actual = projectsService.GetAllProjects().ToList();
 
             // Assert
             Assert.IsNotNull(actual);
@@ -69,7 +69,7 @@ namespace PushAlertsApi.Tests
 
             // Act
             var projectsService = new ProjectsService(expected.AsQueryable().BuildMockDbSet());
-            var actual = projectsService.GetAllProjects().Result.ToList();
+            var actual = projectsService.GetAllProjects().ToList();
 
             // Assert
             Assert.IsNotNull(actual);

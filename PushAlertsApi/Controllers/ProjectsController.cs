@@ -28,11 +28,11 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProjectDto>>> Get()
+        public ActionResult<IEnumerable<ProjectDto>> Get()
         {
             try
             {
-                return Ok(await _projectsService.GetAllProjects());
+                return Ok(_projectsService.GetAllProjects());
             }
             catch (Exception ex)
             {

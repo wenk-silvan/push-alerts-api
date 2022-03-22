@@ -72,5 +72,22 @@ namespace PushAlertsApi.Controllers
                 return BadRequest($"Unexpected error: Task could not be assigned");
             }
         }
+
+        [HttpPut("{uuidTask}/close/")]
+        public async Task<ActionResult<TaskDto>> Put(string uuidTask, TaskState status)
+        {
+            try
+            {
+                _tasksService.CloseTask(uuidTask, status);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
+                                 $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
+                return BadRequest($"Unexpected error: Task could not be assigned");
+            }
+        }
     }
 }
