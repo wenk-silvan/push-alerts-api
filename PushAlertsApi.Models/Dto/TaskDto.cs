@@ -10,30 +10,28 @@
         public DateTime? AssignedAt { get; set; }
         public DateTime? ClosedAt { get; set; }
         public string? Payload { get; set; }
-        public string? UserEmail{ get; set; }
+        public string? UserEmail { get; set; }
         public TaskState Status { get; set; }
+
+        public TaskDto(Task task)
+        {
+            Description = task.Description;
+            Uuid = task.Uuid;
+            Title = task.Title;
+            UserEmail = task.User?.Email;
+            CreatedAt = task.CreatedAt;
+            AssignedAt = task.AssignedAt;
+            ClosedAt = task.ClosedAt;
+            Payload = task.Payload;
+            Source = task.Source;
+            Status = task.Status;
+        }
 
         public static ICollection<TaskDto> CopyAll(ICollection<Task> dbTasks)
         {
-            return dbTasks == null ? 
-                new List<TaskDto>() : dbTasks.Select(Copy).ToList();
-        }
-
-        public static TaskDto Copy(Task dbTask)
-        {
-            return new TaskDto
-            {
-                Description = dbTask.Description,
-                Uuid = dbTask.Uuid,
-                Title = dbTask.Title,
-                UserEmail = dbTask.User?.Email,
-                CreatedAt = dbTask.CreatedAt,
-                AssignedAt = dbTask.AssignedAt,
-                ClosedAt = dbTask.ClosedAt,
-                Payload = dbTask.Payload,
-                Source = dbTask.Source,
-                Status = dbTask.Status
-            };
+            return dbTasks == null
+                ? new List<TaskDto>()
+                : dbTasks.Select(t => new TaskDto(t)).ToList();
         }
     }
 }

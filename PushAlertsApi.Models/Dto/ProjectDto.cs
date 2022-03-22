@@ -8,20 +8,16 @@ namespace PushAlertsApi.Models.Dto
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public static ICollection<ProjectDto> CopyAll(ICollection<Project> dbProjects)
+        public ProjectDto(Project project)
         {
-            return dbProjects == null ?
-                new List<ProjectDto>() : dbProjects.Select(Copy).ToList();
+            Description = project.Description;
+            Uuid = project.Uuid;
+            Name = project.Name;
         }
 
-        private static ProjectDto Copy(Project dbProject)
+        public static ICollection<ProjectDto> CopyAll(ICollection<Project> dbProjects)
         {
-            return new ProjectDto
-            {
-                Description = dbProject.Description,
-                Uuid = dbProject.Uuid,
-                Name = dbProject.Name
-            };
+            return dbProjects == null ? new List<ProjectDto>() : dbProjects.Select(p => new ProjectDto(p)).ToList();
         }
     }
 }

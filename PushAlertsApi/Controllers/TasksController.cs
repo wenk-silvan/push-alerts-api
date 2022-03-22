@@ -37,7 +37,7 @@ namespace PushAlertsApi.Controllers
             try
             {
                 var project = _projectsService.GetProject(uuid);
-                var tasks = TaskDto.CopyAll(project.Tasks);
+                var tasks = TaskDto.CopyAll(project.Tasks!);
                 return Ok(tasks);
             }
             catch (Exception ex)
@@ -103,7 +103,7 @@ namespace PushAlertsApi.Controllers
             {
                 _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
                                  $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
-                return BadRequest($"Unexpected error: Task could not be assigned");
+                return BadRequest($"Unexpected error: Task could not be closed");
             }
         }
     }

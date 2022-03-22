@@ -4,16 +4,13 @@
     {
         public Guid Uuid { get; set; }
         public string Email { get; set; }
-        public ICollection<Guid> ProjectUuids { get; set; }
+        public ICollection<Guid>? ProjectUuids { get; set; }
 
-        public static UserDto Copy(User dbUser)
+        public UserDto(User user)
         {
-            return new UserDto
-            {
-                Uuid = dbUser.Uuid,
-                Email = dbUser.Email,
-                ProjectUuids = dbUser.Projects.Select(p => p.Uuid).ToList(),
-            };
+            Uuid = user.Uuid;
+            Email = user.Email;
+            ProjectUuids = user.Projects?.Select(p => p.Uuid).ToList();
         }
     }
 }
