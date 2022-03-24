@@ -13,18 +13,12 @@ namespace PushAlertsApi.Controllers
     {
         private readonly ILogger<ProjectsController> _logger;
 
-        private readonly DataContext _context;
-
         private readonly ProjectsService _projectsService;
-
-        private readonly TasksService _tasksService;
 
         public ProjectsController(ILogger<ProjectsController> logger, DataContext context)
         {
             _logger = logger;
-            _context = context;
             _projectsService = new ProjectsService(context.Projects);
-            _tasksService = new TasksService(context.Tasks);
         }
 
         [HttpGet]

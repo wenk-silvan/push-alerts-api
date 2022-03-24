@@ -8,12 +8,12 @@ namespace PushAlertsApi.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
+            // Empty up due to simple change
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
+            // Empty down due to simple change
         }
     }
 }
