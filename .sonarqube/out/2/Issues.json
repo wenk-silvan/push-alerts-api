@@ -12,18 +12,291 @@
       },
       "results": [
         {
-          "ruleId": "CS8600",
+          "ruleId": "CS8618",
           "level": "warning",
-          "message": "Converting null literal or possible null value to non-nullable type.",
+          "message": "Non-nullable property 'Projects' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi.Tests/TasksServiceTests.cs",
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Data/DataContext.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 16,
+                  "endLine": 9,
+                  "endColumn": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Tasks' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Data/DataContext.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 16,
+                  "endLine": 9,
+                  "endColumn": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Users' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Data/DataContext.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 16,
+                  "endLine": 9,
+                  "endColumn": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S4792",
+          "level": "warning",
+          "message": "Make sure that this logger's configuration is safe.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Services/ProjectsService.cs",
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 23,
+                  "endLine": 17,
+                  "endColumn": 42
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S4792",
+          "level": "warning",
+          "message": "Make sure that this logger's configuration is safe.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Services/TasksService.cs",
+                "region": {
+                  "startLine": 18,
+                  "startColumn": 23,
+                  "endLine": 18,
+                  "endColumn": 42
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S4792",
+          "level": "warning",
+          "message": "Make sure that this logger's configuration is safe.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Services/UsersService.cs",
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 23,
+                  "endLine": 16,
+                  "endColumn": 42
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA2254",
+          "level": "note",
+          "message": "The logging message template should not vary between calls to 'LoggerExtensions.LogInformation(ILogger, string?, params object?[])'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Services/TasksService.cs",
+                "region": {
+                  "startLine": 32,
+                  "startColumn": 36,
+                  "endLine": 32,
+                  "endColumn": 117
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA2254",
+          "level": "note",
+          "message": "The logging message template should not vary between calls to 'LoggerExtensions.LogInformation(ILogger, string?, params object?[])'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Services/ProjectsService.cs",
+                "region": {
+                  "startLine": 24,
+                  "startColumn": 36,
+                  "endLine": 24,
+                  "endColumn": 87
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA2254",
+          "level": "note",
+          "message": "The logging message template should not vary between calls to 'LoggerExtensions.LogInformation(ILogger, string?, params object?[])'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Services/UsersService.cs",
+                "region": {
+                  "startLine": 23,
+                  "startColumn": 36,
+                  "endLine": 23,
+                  "endColumn": 86
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA2254",
+          "level": "note",
+          "message": "The logging message template should not vary between calls to 'LoggerExtensions.LogInformation(ILogger, string?, params object?[])'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Services/ProjectsService.cs",
+                "region": {
+                  "startLine": 31,
+                  "startColumn": 36,
+                  "endLine": 31,
+                  "endColumn": 89
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA2254",
+          "level": "note",
+          "message": "The logging message template should not vary between calls to 'LoggerExtensions.LogError(ILogger, string?, params object?[])'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Controllers/ProjectsController.cs",
+                "region": {
+                  "startLine": 39,
+                  "startColumn": 30,
+                  "endLine": 39,
+                  "endColumn": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA2254",
+          "level": "note",
+          "message": "The logging message template should not vary between calls to 'LoggerExtensions.LogError(ILogger, string?, params object?[])'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Controllers/TasksController.cs",
+                "region": {
+                  "startLine": 98,
+                  "startColumn": 30,
+                  "endLine": 98,
+                  "endColumn": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA2254",
+          "level": "note",
+          "message": "The logging message template should not vary between calls to 'LoggerExtensions.LogInformation(ILogger, string?, params object?[])'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Services/TasksService.cs",
+                "region": {
+                  "startLine": 46,
+                  "startColumn": 36,
+                  "endLine": 46,
+                  "endColumn": 105
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA2254",
+          "level": "note",
+          "message": "The logging message template should not vary between calls to 'LoggerExtensions.LogDebug(ILogger, string?, params object?[])'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Services/TasksService.cs",
                 "region": {
                   "startLine": 55,
-                  "startColumn": 26,
+                  "startColumn": 34,
                   "endLine": 55,
-                  "endColumn": 30
+                  "endColumn": 39
                 }
               }
             }
@@ -33,18 +306,18 @@
           }
         },
         {
-          "ruleId": "CS8604",
-          "level": "warning",
-          "message": "Possible null reference argument for parameter 'user' in 'void TasksService.AssignTask(string uuid, User user)'.",
+          "ruleId": "CA2254",
+          "level": "note",
+          "message": "The logging message template should not vary between calls to 'LoggerExtensions.LogInformation(ILogger, string?, params object?[])'",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi.Tests/TasksServiceTests.cs",
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Services/TasksService.cs",
                 "region": {
-                  "startLine": 65,
-                  "startColumn": 86,
-                  "endLine": 65,
-                  "endColumn": 91
+                  "startLine": 67,
+                  "startColumn": 36,
+                  "endLine": 67,
+                  "endColumn": 106
                 }
               }
             }
@@ -54,18 +327,18 @@
           }
         },
         {
-          "ruleId": "S3415",
-          "level": "warning",
-          "message": "Make sure these 2 arguments are in the correct order: expected value, actual value.",
+          "ruleId": "CA2254",
+          "level": "note",
+          "message": "The logging message template should not vary between calls to 'LoggerExtensions.LogInformation(ILogger, string?, params object?[])'",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi.Tests/ProjectsServiceTests.cs",
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi/Services/TasksService.cs",
                 "region": {
-                  "startLine": 76,
-                  "startColumn": 29,
-                  "endLine": 76,
-                  "endColumn": 44
+                  "startLine": 73,
+                  "startColumn": 36,
+                  "endLine": 73,
+                  "endColumn": 103
                 }
               }
             }
@@ -76,11 +349,26 @@
         }
       ],
       "rules": {
-        "CS8600": {
-          "id": "CS8600",
-          "shortDescription": "Converting null literal or possible null value to non-nullable type.",
+        "CA2254": {
+          "id": "CA2254",
+          "shortDescription": "Template should be a static expression",
+          "fullDescription": "The logging message template should not vary between calls.",
+          "defaultLevel": "note",
+          "helpUri": "https://docs.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2254",
+          "properties": {
+            "category": "Usage",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Telemetry",
+              "EnabledRuleInAggressiveMode"
+            ]
+          }
+        },
+        "CS8618": {
+          "id": "CS8618",
+          "shortDescription": "Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.",
           "defaultLevel": "warning",
-          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8600)",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8618)",
           "properties": {
             "category": "Compiler",
             "isEnabledByDefault": true,
@@ -90,33 +378,20 @@
             ]
           }
         },
-        "CS8604": {
-          "id": "CS8604",
-          "shortDescription": "Possible null reference argument.",
+        "S4792": {
+          "id": "S4792",
+          "shortDescription": "Configuring loggers is security-sensitive",
+          "fullDescription": "Configuring loggers is security-sensitive. It has led in the past to the following vulnerabilities:",
           "defaultLevel": "warning",
-          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8604)",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-4792",
           "properties": {
-            "category": "Compiler",
-            "isEnabledByDefault": true,
-            "tags": [
-              "Compiler",
-              "Telemetry"
-            ]
-          }
-        },
-        "S3415": {
-          "id": "S3415",
-          "shortDescription": "Assertion arguments should be passed in the correct order",
-          "fullDescription": "The standard assertions library methods such as AreEqual and AreSame in MSTest and NUnit, or Equal and Same in XUnit, expect the first argument to be the expected value and the second argument to be the actual value. Swap them, and your test will still have the same outcome (succeed/fail when it should) but the error messages will be confusing.",
-          "defaultLevel": "warning",
-          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-3415",
-          "properties": {
-            "category": "Major Code Smell",
+            "category": "Critical Security Hotspot",
             "isEnabledByDefault": true,
             "tags": [
               "C#",
               "SonarWay",
-              "TestSourceScope"
+              "MainSourceScope",
+              "NotConfigurable"
             ]
           }
         }

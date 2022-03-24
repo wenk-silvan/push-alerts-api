@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace PushAlertsApi.Models.Dto
+﻿namespace PushAlertsApi.Models.Dto
 {
     public class ProjectDto
     {

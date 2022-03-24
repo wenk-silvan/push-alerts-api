@@ -12,123 +12,36 @@
       },
       "results": [
         {
-          "ruleId": "CS8618",
-          "level": "warning",
-          "message": "Non-nullable property 'Name' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "ruleId": "CS0121",
+          "level": "error",
+          "message": "The call is ambiguous between the following methods or properties: 'Enumerable.Select<TSource, TResult>(IEnumerable<TSource>, Func<TSource, TResult>)' and 'Enumerable.Select<TSource, TResult>(IEnumerable<TSource>, Func<TSource, TResult>)'",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi.Models/Project.cs",
+                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi.Models/Dto/ProjectDto.cs",
                 "region": {
-                  "startLine": 7,
-                  "startColumn": 23,
-                  "endLine": 7,
-                  "endColumn": 27
+                  "startLine": 20,
+                  "startColumn": 77,
+                  "endLine": 20,
+                  "endColumn": 83
                 }
               }
             }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8618",
-          "level": "warning",
-          "message": "Non-nullable property 'Description' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi.Models/Project.cs",
-                "region": {
-                  "startLine": 8,
-                  "startColumn": 23,
-                  "endLine": 8,
-                  "endColumn": 34
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8618",
-          "level": "warning",
-          "message": "Non-nullable property 'Title' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi.Models/Task.cs",
-                "region": {
-                  "startLine": 5,
-                  "startColumn": 16,
-                  "endLine": 5,
-                  "endColumn": 20
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8618",
-          "level": "warning",
-          "message": "Non-nullable property 'Description' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi.Models/Task.cs",
-                "region": {
-                  "startLine": 5,
-                  "startColumn": 16,
-                  "endLine": 5,
-                  "endColumn": 20
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8618",
-          "level": "warning",
-          "message": "Non-nullable property 'Source' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Development/hslu/baa/PushAlertsApi/PushAlertsApi.Models/Task.cs",
-                "region": {
-                  "startLine": 5,
-                  "startColumn": 16,
-                  "endLine": 5,
-                  "endColumn": 20
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
+          ]
         }
       ],
       "rules": {
-        "CS8618": {
-          "id": "CS8618",
-          "shortDescription": "Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.",
-          "defaultLevel": "warning",
-          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8618)",
+        "CS0121": {
+          "id": "CS0121",
+          "defaultLevel": "error",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS0121)",
           "properties": {
             "category": "Compiler",
             "isEnabledByDefault": true,
             "tags": [
               "Compiler",
-              "Telemetry"
+              "Telemetry",
+              "NotConfigurable"
             ]
           }
         }
