@@ -42,9 +42,7 @@ namespace PushAlertsApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
-                                 $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
-                return BadRequest($"Unexpected error: No tasks could be loaded for uuid: '{uuid}'.");
+                return HandleApiException(ex);
             }
         }
 
@@ -58,17 +56,9 @@ namespace PushAlertsApi.Controllers
                 _context.SaveChanges();
                 return Ok(newTask);
             }
-            catch (ArgumentNullException ex)
+            catch (Exception ex)
             {
-                _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
-                                 $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
-                return BadRequest($"Unexpected error: Task could not be add : '{uuidProject}'.");
-            }
-            catch (FormatException ex)
-            {
-                _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
-                                 $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
-                return BadRequest($"Unexpected error: No tasks could be loaded for uuidProject: '{uuidProject}'.");
+                return HandleApiException(ex);
             }
         }
 
@@ -84,9 +74,7 @@ namespace PushAlertsApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
-                                 $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
-                return BadRequest($"Unexpected error: Task could not be assigned");
+                return HandleApiException(ex);
             }
         }
 
@@ -101,10 +89,14 @@ namespace PushAlertsApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
-                                 $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
-                return BadRequest($"Unexpected error: Task could not be closed");
+                return HandleApiException(ex);
             }
+        }
+
+        private ActionResult HandleApiException(Exception ex)
+        {
+            _logger.LogError(MessageFormatter.LogError(ex));
+            return BadRequest(MessageFormatter.ActionResultBadRequest());
         }
     }
 }

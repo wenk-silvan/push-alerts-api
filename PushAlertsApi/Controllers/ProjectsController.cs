@@ -30,10 +30,14 @@ namespace PushAlertsApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exception Message: {ex.Message}, Inner Exception Message: " +
-                                 $"{ex.InnerException?.Message}, Stack Trace: {ex.StackTrace}");
-                return BadRequest($"Unexpected error: No projects could be loaded.");
+                return HandleApiException(ex);
             }
+        }
+
+        private ActionResult HandleApiException(Exception ex)
+        {
+            _logger.LogError(MessageFormatter.LogError(ex));
+            return BadRequest(MessageFormatter.ActionResultBadRequest());
         }
     }
 }
