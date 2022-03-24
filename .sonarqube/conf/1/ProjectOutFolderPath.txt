@@ -1,0 +1,1 @@
+C:\Development\hslu\baa\PushAlertsApi\.sonarqube\out\1
