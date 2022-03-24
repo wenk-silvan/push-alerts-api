@@ -37,7 +37,8 @@ namespace PushAlertsApi.Services
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
             var dbTask = GetTask(uuid);
-            if (dbTask.Status != TaskState.Opened) throw new InvalidOperationException($"Can't assign task with Status: '{dbTask.Status}'");
+            if (dbTask.Status != TaskState.Opened)
+                throw new InvalidOperationException($"Can't assign task with Status: '{dbTask.Status}'");
             dbTask.AssignedAt = DateTime.Now;
             dbTask.Status = TaskState.Assigned;
             dbTask.User = user;
@@ -54,9 +55,13 @@ namespace PushAlertsApi.Services
                 _logger.LogDebug(error);
                 throw new ArgumentException(error);
             }
+
             var dbTask = GetTask(uuid);
             if (dbTask.Status != TaskState.Assigned)
+            {
                 throw new InvalidOperationException($"Can't close a task with uuid: '{uuid} 'which is not Assigned");
+            }
+
             dbTask.Status = status;
             dbTask.ClosedAt = DateTime.Now;
             _logger.LogInformation($"Closed task with uuid: '{uuid}' and set state to: '{dbTask.Status}'");
@@ -64,13 +69,7 @@ namespace PushAlertsApi.Services
 
         public Task GetTask(string uuid)
         {
-            var task = _dbSet.FirstOrDefault(t => t.Uuid == Guid.Parse(uuid));
-            if (task == null)
-            {
-                string error = $"No task found in DB for uuid: '{uuid}'";
-                _logger.LogDebug(error);
-                throw new ArgumentException(error);
-            }
+            var task = _dbSet.First(t => t.Uuid == Guid.Parse(uuid));
             _logger.LogInformation($"Fetched one task from DB for uuid: '{uuid}' with id: '{task.Id}'");
             return task;
         }

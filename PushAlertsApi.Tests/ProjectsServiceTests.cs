@@ -73,7 +73,7 @@ namespace PushAlertsApi.Tests
 
             // Assert
             Assert.IsNotNull(actual);
-            Assert.AreEqual(actual.Count, 0);
+            Assert.AreEqual(0, actual.Count);
         }
 
         [Test]

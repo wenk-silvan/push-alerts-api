@@ -20,10 +20,6 @@ namespace PushAlertsApi.Services
         public User GetUser(string uuid)
         {
             var user = _dbSet.First(u => u.Uuid == Guid.Parse(uuid));
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user), "No user found.");
-            }
             _logger.LogInformation($"Fetched user from database with uuid: '{uuid}'.");
             return user;
         }

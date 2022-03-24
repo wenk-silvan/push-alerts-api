@@ -292,7 +292,7 @@ namespace PushAlertsApi.Tests
             string uuid = Guid.NewGuid().ToString();
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => tasksService.GetTask(uuid));
+            Assert.Throws<InvalidOperationException>(() => tasksService.GetTask(uuid));
         }
 
         [Test]
@@ -304,7 +304,7 @@ namespace PushAlertsApi.Tests
             string uuid = Guid.NewGuid().ToString();
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => tasksService.GetTask(uuid));
+            Assert.Throws<InvalidOperationException>(() => tasksService.GetTask(uuid));
         }
     }
 }

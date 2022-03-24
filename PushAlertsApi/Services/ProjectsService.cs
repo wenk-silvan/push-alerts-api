@@ -28,10 +28,6 @@ namespace PushAlertsApi.Services
         public Project GetProject(string uuid)
         {
             var project = _dbSet.First(p => p.Uuid == Guid.Parse(uuid));
-            if (project == null)
-            {
-                throw new ArgumentNullException(nameof(project), "No project found.");
-            }
             _logger.LogInformation($"Fetched project from database with uuid: '{uuid}'.");
             return project;
         }
