@@ -63,7 +63,7 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpPut("{uuidTask}/assign/{uuidUser}")]
-        public ActionResult<TaskDto> Put(string uuidTask, string uuidUser)
+        public ActionResult Put(string uuidTask, string uuidUser)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpPut("{uuidTask}/close/")]
-        public ActionResult<TaskDto> Put(string uuidTask, TaskState status)
+        public ActionResult Put(string uuidTask, TaskState status)
         {
             try
             {
