@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using PushAlertsApi.Data;
 using PushAlertsApi.Models;
 using PushAlertsApi.Models.Dto;
 using PushAlertsApi.Services;
-using Task = PushAlertsApi.Models.Task;
 
 namespace PushAlertsApi.Controllers
 {
     [ApiController]
+    [ApiVersion("0.1")]
     [Route("api/[controller]")]
     public class TasksController : ControllerBase
     {

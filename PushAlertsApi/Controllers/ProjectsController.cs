@@ -8,6 +8,7 @@ using Task = PushAlertsApi.Models.Task;
 namespace PushAlertsApi.Controllers
 {
     [ApiController]
+    [ApiVersion("0.1")]
     [Route("api/[controller]")]
     public class ProjectsController : ControllerBase
     {
