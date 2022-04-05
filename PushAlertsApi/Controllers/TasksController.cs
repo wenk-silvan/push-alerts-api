@@ -21,6 +21,8 @@ namespace PushAlertsApi.Controllers
 
         private readonly UsersService _usersService;
 
+        private readonly NotificationService _notificationService;
+
         public TasksController(ILogger<ProjectsController> logger, DataContext context)
         {
             _logger = logger;
@@ -28,6 +30,7 @@ namespace PushAlertsApi.Controllers
             _projectsService = new ProjectsService(context.Projects);
             _tasksService = new TasksService(context.Tasks);
             _usersService = new UsersService(context.Users);
+            _notificationService = new NotificationService(context.Notifications);
         }
 
         [HttpGet("{uuid}")]
@@ -52,6 +55,7 @@ namespace PushAlertsApi.Controllers
             {
                 var project = _projectsService.GetProject(uuidProject);
                 var newTask = _tasksService.AddTask(project, task);
+                _notificationService.NotifyForNewTask(project, newTask);
                 _context.SaveChanges();
                 return Ok(newTask);
             }

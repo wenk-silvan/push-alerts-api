@@ -3,5 +3,4 @@ PushAlertsApi.sln.DotSettings.user
 */obj/
 */bin/
 
-PushAlertsApi/appsettings.json
-PushAlertsApi/appsettings.Development.json
+*.json

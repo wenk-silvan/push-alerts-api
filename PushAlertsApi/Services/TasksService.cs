@@ -21,14 +21,14 @@ namespace PushAlertsApi.Services
 
         public Task AddTask(Project project, TaskDto task)
         {
-            var tasks = new Task(
+            var dbTask = new Task(
                 task.Title,
                 task.Description,
                 task.Source,
                 project.Id,
                 task.Payload
             );
-            var result = _dbSet.Add(tasks);
+            var result = _dbSet.Add(dbTask);
             _logger.LogInformation($"Added new task with uuid: '{task.Uuid}' to project with uuid: '{project.Uuid}'");
             return result.Entity;
         }
