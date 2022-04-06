@@ -1,3 +1,4 @@
+using FirebaseAdmin.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using PushAlertsApi.Data;
 using PushAlertsApi.Models;
@@ -21,7 +22,7 @@ namespace PushAlertsApi.Controllers
 
         private readonly UsersService _usersService;
 
-        private readonly NotificationService _notificationService;
+        private readonly NotificationsService _notificationsService;
 
         public TasksController(ILogger<ProjectsController> logger, DataContext context)
         {
@@ -30,7 +31,7 @@ namespace PushAlertsApi.Controllers
             _projectsService = new ProjectsService(context.Projects);
             _tasksService = new TasksService(context.Tasks);
             _usersService = new UsersService(context.Users);
-            _notificationService = new NotificationService(context.Notifications);
+            _notificationsService = new NotificationsService(context.Notifications, FirebaseMessaging.DefaultInstance);
         }
 
         [HttpGet("{uuid}")]
@@ -49,14 +50,14 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpPost("{uuidProject}")]
-        public ActionResult<TaskDto> Post(string uuidProject, TaskDto task)
+        public async Task<ActionResult<TaskDto>> Post(string uuidProject, TaskDto task)
         {
             try
             {
                 var project = _projectsService.GetProject(uuidProject);
                 var newTask = _tasksService.AddTask(project, task);
-                _notificationService.NotifyForNewTask(project, newTask);
-                _context.SaveChanges();
+                await _notificationsService.NotifyForNewTask(project, newTask);
+                await _context.SaveChangesAsync();
                 return Ok(newTask);
             }
             catch (Exception ex)

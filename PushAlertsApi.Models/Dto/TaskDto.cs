@@ -13,6 +13,16 @@
         public string? UserEmail { get; set; }
         public TaskState Status { get; set; }
 
+        public TaskDto()
+        {
+            Uuid = Guid.NewGuid();
+            Title = string.Empty;
+            Description = string.Empty;
+            Source = string.Empty;
+            CreatedAt = DateTime.Now;
+            Status = TaskState.Opened;
+        }
+
         public TaskDto(Task task)
         {
             Description = task.Description;

@@ -50,7 +50,7 @@ namespace PushAlertsApi.Services
         {
             if (status != TaskState.Done && status != TaskState.Rejected)
             {
-                string error =
+                var error =
                     $"The provided task state must be either {TaskState.Done} or {TaskState.Rejected}: '{status}'";
                 _logger.LogDebug(error);
                 throw new ArgumentException(error);

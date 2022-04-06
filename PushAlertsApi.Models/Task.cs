@@ -2,18 +2,6 @@
 {
     public class Task
     {
-        public Task(string title, string description, string source, int projectId, string? payload)
-        {
-            Uuid = Guid.NewGuid();
-            Title = title;
-            Description = description;
-            Source = source;
-            CreatedAt = DateTime.Now;
-            ProjectId = projectId;
-            Payload = payload;
-            Status = TaskState.Opened;
-        }
-
         public int Id { get; set; }
         public int ProjectId { get; set; }
         public Guid Uuid { get; set; }
@@ -26,5 +14,17 @@
         public string? Payload { get; set; }
         public virtual User? User { get; set; }
         public TaskState Status { get; set; }
+
+        public Task(string title, string description, string source, int projectId, string? payload)
+        {
+            Uuid = Guid.NewGuid();
+            Title = title;
+            Description = description;
+            Source = source;
+            CreatedAt = DateTime.Now;
+            ProjectId = projectId;
+            Payload = payload;
+            Status = TaskState.Opened;
+        }
     }
 }
