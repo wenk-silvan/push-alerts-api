@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using PushAlertsApi.Data;
 using PushAlertsApi.Models.Dto;
 using PushAlertsApi.Services;
-using Task = PushAlertsApi.Models.Task;
+using PushAlertsApi.Util;
 
 namespace PushAlertsApi.Controllers
 {

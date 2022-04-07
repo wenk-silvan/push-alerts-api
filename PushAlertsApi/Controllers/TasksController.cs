@@ -4,6 +4,7 @@ using PushAlertsApi.Data;
 using PushAlertsApi.Models;
 using PushAlertsApi.Models.Dto;
 using PushAlertsApi.Services;
+using PushAlertsApi.Util;
 
 namespace PushAlertsApi.Controllers
 {

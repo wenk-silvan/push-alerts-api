@@ -1,4 +1,4 @@
-﻿namespace PushAlertsApi.Controllers
+﻿namespace PushAlertsApi.Util
 {
     public static class MessageFormatter
     {

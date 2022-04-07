@@ -1,7 +1,7 @@
 ﻿using FirebaseAdmin.Messaging;
 using Microsoft.EntityFrameworkCore;
-using PushAlertsApi.Controllers;
 using PushAlertsApi.Models;
+using PushAlertsApi.Util;
 using Task = PushAlertsApi.Models.Task;
 
 namespace PushAlertsApi.Services
@@ -59,7 +59,7 @@ namespace PushAlertsApi.Services
             }
             catch (FirebaseMessagingException ex)
             {
-                MessageFormatter.LogError(ex);
+                _logger.LogError(MessageFormatter.LogError(ex));
                 return false;
             }
         }
