@@ -57,8 +57,21 @@ namespace PushAlertsApi.Controllers
             {
                 var project = _projectsService.GetProject(uuidProject);
                 var newTask = _tasksService.AddTask(project, task);
-                await _notificationsService.NotifyForNewTask(project, newTask);
+                await _notificationsService.NotifyUsers($"Project {project.Name} has new task from {task.Source}",
+                    project, newTask);
+
+                var aTimer = new System.Timers.Timer();
+                aTimer.Elapsed += async (o, args) =>
+                {
+                    aTimer.Dispose();
+                    await _notificationsService.NotifyUsers(
+                        $"Reminder for task '{task.Title}' in project {project.Name}", project, newTask);
+                };
+                aTimer.Interval = 10000;
+                aTimer.Enabled = true;
+
                 await _context.SaveChangesAsync();
+
                 return Ok(newTask);
             }
             catch (Exception ex)

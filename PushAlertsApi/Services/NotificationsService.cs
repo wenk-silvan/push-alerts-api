@@ -1,4 +1,5 @@
-﻿using FirebaseAdmin.Messaging;
+﻿using System.Timers;
+using FirebaseAdmin.Messaging;
 using Microsoft.EntityFrameworkCore;
 using PushAlertsApi.Models;
 using PushAlertsApi.Util;
@@ -22,13 +23,10 @@ namespace PushAlertsApi.Services
 
         }
 
-        public async System.Threading.Tasks.Task NotifyForNewTask(Project project, Task task)
+        public async System.Threading.Tasks.Task NotifyUsers(string message, Project project, Task task)
         {
-            var notification = new TaskNotification($"New task from {task.Source}", task);
-            var result = await SendNotification(notification, project.Name);
-            if (result) StoreNotification(notification);
-
-            //.ContinueWith(antecedent => antecedent.Result ? StoreNotification(notification) : null);
+            var notification = new TaskNotification(message, task);
+            await SendNotification(notification, project.Name);
         }
 
         public TaskNotification StoreNotification(TaskNotification notification)
@@ -54,7 +52,7 @@ namespace PushAlertsApi.Services
                 };
 
                 var result = await _messaging.SendAsync(message);
-                _logger.LogDebug($"Send notification to FCM with uuid: '{notification.Uuid}'");
+                _logger.LogDebug($"Sent notification to FCM with uuid: '{notification.Uuid}'");
                 return true;
             }
             catch (FirebaseMessagingException ex)
