@@ -1,5 +1,6 @@
 using FirebaseAdmin.Messaging;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using PushAlertsApi.Data;
 using PushAlertsApi.Models;
 using PushAlertsApi.Models.Dto;
@@ -24,8 +25,10 @@ namespace PushAlertsApi.Controllers
         private readonly UsersService _usersService;
 
         private readonly NotificationsService _notificationsService;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public TasksController(ILogger<ProjectsController> logger, DataContext context)
+        public TasksController(ILogger<ProjectsController> logger, DataContext context,
+            IServiceScopeFactory serviceScopeFactory)
         {
             _logger = logger;
             _context = context;
@@ -33,6 +36,7 @@ namespace PushAlertsApi.Controllers
             _tasksService = new TasksService(context.Tasks);
             _usersService = new UsersService(context.Users);
             _notificationsService = new NotificationsService(context.Notifications, FirebaseMessaging.DefaultInstance);
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         [HttpGet("{uuid}")]
@@ -51,27 +55,34 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpPost("{uuidProject}")]
-        public async Task<ActionResult<TaskDto>> Post(string uuidProject, TaskDto task)
+        public async Task<ActionResult<TaskDto>> Post([FromServices] IServiceProvider provider, string uuidProject,
+            TaskDto task)
         {
             try
             {
                 var project = _projectsService.GetProject(uuidProject);
                 var newTask = _tasksService.AddTask(project, task);
-                await _notificationsService.NotifyUsers($"Project {project.Name} has new task from {task.Source}",
+                _notificationsService.NotifyUsers($"Project {project.Name} has new task from {task.Source}",
                     project, newTask);
 
-                var aTimer = new System.Timers.Timer();
-                aTimer.Elapsed += async (o, args) =>
+                var aTimer = new System.Timers.Timer(10000);
+                aTimer.Elapsed += (o, args) =>
                 {
-                    aTimer.Dispose();
-                    await _notificationsService.NotifyUsers(
-                        $"Reminder for task '{task.Title}' in project {project.Name}", project, newTask);
+                    using var scope = _serviceScopeFactory.CreateScope();
+                    using var contextService = scope.ServiceProvider.GetRequiredService<DataContext>();
+                    var t = new TasksService(contextService.Tasks).GetTask(newTask.Uuid.ToString());
+                    if (t.Status == TaskState.Opened)
+                    {
+                        _notificationsService.NotifyUsers(
+                            $"Reminder for task '{t.Title}' in project {project.Name}", project, newTask);
+                    }
+                    else
+                    {
+                        aTimer.Dispose();
+                    }
                 };
-                aTimer.Interval = 10000;
                 aTimer.Enabled = true;
-
                 await _context.SaveChangesAsync();
-
                 return Ok(newTask);
             }
             catch (Exception ex)

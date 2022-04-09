@@ -23,10 +23,10 @@ namespace PushAlertsApi.Services
 
         }
 
-        public async System.Threading.Tasks.Task NotifyUsers(string message, Project project, Task task)
+        public bool NotifyUsers(string message, Project project, Task task)
         {
             var notification = new TaskNotification(message, task);
-            await SendNotification(notification, project.Name);
+            return SendNotification(notification, project.Name);
         }
 
         public TaskNotification StoreNotification(TaskNotification notification)
@@ -36,7 +36,7 @@ namespace PushAlertsApi.Services
             return result.Entity;
         }
 
-        private async Task<bool> SendNotification(TaskNotification notification, string topic)
+        private bool SendNotification(TaskNotification notification, string topic)
         {
             try
             {
@@ -51,8 +51,8 @@ namespace PushAlertsApi.Services
                     Topic = topic
                 };
 
-                var result = await _messaging.SendAsync(message);
-                _logger.LogDebug($"Sent notification to FCM with uuid: '{notification.Uuid}'");
+                _logger.LogDebug($"Send notification to FCM with uuid: '{notification.Uuid}'");
+                var result = _messaging.SendAsync(message);
                 return true;
             }
             catch (FirebaseMessagingException ex)

@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata;
-using Microsoft.EntityFrameworkCore;
-using PushAlertsApi.Controllers;
+﻿using Microsoft.EntityFrameworkCore;
 using PushAlertsApi.Models;
 using PushAlertsApi.Models.Dto;
 using Task = PushAlertsApi.Models.Task;
