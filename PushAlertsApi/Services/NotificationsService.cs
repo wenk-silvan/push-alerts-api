@@ -26,10 +26,11 @@ namespace PushAlertsApi.Services
         public bool NotifyUsers(string message, Project project, Task task)
         {
             var notification = new TaskNotification(message, task);
+            StoreNotification(notification);
             return SendNotification(notification, project.Name);
         }
 
-        public TaskNotification StoreNotification(TaskNotification notification)
+        private TaskNotification StoreNotification(TaskNotification notification)
         {
             var result = _dbSet.Add(notification);
             _logger.LogDebug($"Added new notification to database with uuid: '{notification.Uuid}'");

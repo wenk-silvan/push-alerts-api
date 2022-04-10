@@ -25,7 +25,12 @@ namespace PushAlertsApi.Controllers
         private readonly UsersService _usersService;
 
         private readonly NotificationsService _notificationsService;
+
+        private readonly ReminderJobService _reminderJobService;
+
         private readonly IServiceScopeFactory _serviceScopeFactory;
+
+        private const int ReminderIntervalMillis = 10000;
 
         public TasksController(ILogger<ProjectsController> logger, DataContext context,
             IServiceScopeFactory serviceScopeFactory)
@@ -36,6 +41,9 @@ namespace PushAlertsApi.Controllers
             _tasksService = new TasksService(context.Tasks);
             _usersService = new UsersService(context.Users);
             _notificationsService = new NotificationsService(context.Notifications, FirebaseMessaging.DefaultInstance);
+            _reminderJobService = new ReminderJobService(context.ReminderJobs, ReminderIntervalMillis);
+            _reminderJobService.CleanUp();
+            _context.SaveChanges();
             _serviceScopeFactory = serviceScopeFactory;
         }
 
@@ -55,33 +63,16 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpPost("{uuidProject}")]
-        public async Task<ActionResult<TaskDto>> Post([FromServices] IServiceProvider provider, string uuidProject,
-            TaskDto task)
+        public async Task<ActionResult<TaskDto>> Post(string uuidProject, TaskDto task)
         {
             try
             {
                 var project = _projectsService.GetProject(uuidProject);
                 var newTask = _tasksService.AddTask(project, task);
-                _notificationsService.NotifyUsers($"Project {project.Name} has new task from {task.Source}",
-                    project, newTask);
+                _notificationsService.NotifyUsers($"Project {project.Name} has new task from {task.Source}", project,
+                    newTask);
 
-                var aTimer = new System.Timers.Timer(10000);
-                aTimer.Elapsed += (o, args) =>
-                {
-                    using var scope = _serviceScopeFactory.CreateScope();
-                    using var contextService = scope.ServiceProvider.GetRequiredService<DataContext>();
-                    var t = new TasksService(contextService.Tasks).GetTask(newTask.Uuid.ToString());
-                    if (t.Status == TaskState.Opened)
-                    {
-                        _notificationsService.NotifyUsers(
-                            $"Reminder for task '{t.Title}' in project {project.Name}", project, newTask);
-                    }
-                    else
-                    {
-                        aTimer.Dispose();
-                    }
-                };
-                aTimer.Enabled = true;
+                _reminderJobService.Add(new ReminderJob(newTask), project, OnReminderJobTimerFinish);
                 await _context.SaveChangesAsync();
                 return Ok(newTask);
             }
@@ -126,6 +117,25 @@ namespace PushAlertsApi.Controllers
         {
             _logger.LogError(MessageFormatter.LogError(ex));
             return BadRequest(MessageFormatter.ActionResultBadRequest());
+        }
+
+        private void OnReminderJobTimerFinish(IDisposable timer, Guid taskUuid, Project project)
+        {
+            // Create new database context and tasks service because this gets executed in a separate thread.
+            using var scope = _serviceScopeFactory.CreateScope();
+            using var currentDbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+            var task = new TasksService(currentDbContext.Tasks).GetTask(taskUuid.ToString());
+            if (task.Status == TaskState.Opened)
+            {
+                new NotificationsService(currentDbContext.Notifications, FirebaseMessaging.DefaultInstance).NotifyUsers(
+                    $"Reminder for task '{task.Title}' in project {project.Name}", project, task);
+            }
+            else
+            {
+                timer.Dispose();
+                new ReminderJobService(currentDbContext.ReminderJobs, ReminderIntervalMillis).DeleteAll(task);
+                currentDbContext.SaveChanges();
+            }
         }
     }
 }
