@@ -26,7 +26,7 @@ namespace PushAlertsApi.Services
         public bool NotifyUsers(string message, Project project, Task task)
         {
             var notification = new TaskNotification(message, task);
-            StoreNotification(notification);
+            //StoreNotification(notification);
             return SendNotification(notification, project.Name);
         }
 

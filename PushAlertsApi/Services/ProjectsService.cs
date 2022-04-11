@@ -31,5 +31,12 @@ namespace PushAlertsApi.Services
             _logger.LogInformation($"Fetched project from database with uuid: '{uuid}'.");
             return project;
         }
+
+        public Project GetProject(int id)
+        {
+            var project = _dbSet.First(p => p.Id == id);
+            _logger.LogInformation($"Fetched project from database with id: '{id}'.");
+            return project;
+        }
     }
 }

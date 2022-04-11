@@ -41,8 +41,11 @@ namespace PushAlertsApi.Controllers
             _tasksService = new TasksService(context.Tasks);
             _usersService = new UsersService(context.Users);
             _notificationsService = new NotificationsService(context.Notifications, FirebaseMessaging.DefaultInstance);
+
             _reminderJobService = new ReminderJobService(context.ReminderJobs, ReminderIntervalMillis);
-            _reminderJobService.CleanUp();
+            //_reminderJobService.RemoveOutdatedJobs();
+            //_reminderJobService.ReloadTimerForEachJob(OnReminderJobTimerFinish);
+
             _context.SaveChanges();
             _serviceScopeFactory = serviceScopeFactory;
         }
@@ -69,10 +72,11 @@ namespace PushAlertsApi.Controllers
             {
                 var project = _projectsService.GetProject(uuidProject);
                 var newTask = _tasksService.AddTask(project, task);
+                //await _context.SaveChangesAsync();
                 _notificationsService.NotifyUsers($"Project {project.Name} has new task from {task.Source}", project,
                     newTask);
-
-                _reminderJobService.Add(new ReminderJob(newTask), project, OnReminderJobTimerFinish);
+                
+                _reminderJobService.Add(new ReminderJob(newTask), OnReminderJobTimerFinish);
                 await _context.SaveChangesAsync();
                 return Ok(newTask);
             }
@@ -119,12 +123,13 @@ namespace PushAlertsApi.Controllers
             return BadRequest(MessageFormatter.ActionResultBadRequest());
         }
 
-        private void OnReminderJobTimerFinish(IDisposable timer, Guid taskUuid, Project project)
+        private void OnReminderJobTimerFinish(IDisposable timer, Guid taskUuid)
         {
             // Create new database context and tasks service because this gets executed in a separate thread.
             using var scope = _serviceScopeFactory.CreateScope();
             using var currentDbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
             var task = new TasksService(currentDbContext.Tasks).GetTask(taskUuid.ToString());
+            var project = new ProjectsService(currentDbContext.Projects).GetProject(task.ProjectId);
             if (task.Status == TaskState.Opened)
             {
                 new NotificationsService(currentDbContext.Notifications, FirebaseMessaging.DefaultInstance).NotifyUsers(
@@ -133,8 +138,8 @@ namespace PushAlertsApi.Controllers
             else
             {
                 timer.Dispose();
-                new ReminderJobService(currentDbContext.ReminderJobs, ReminderIntervalMillis).DeleteAll(task);
-                currentDbContext.SaveChanges();
+                //new ReminderJobService(currentDbContext.ReminderJobs, ReminderIntervalMillis).DeleteAll(task);
+                //currentDbContext.SaveChanges();
             }
         }
     }

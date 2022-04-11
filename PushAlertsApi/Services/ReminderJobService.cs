@@ -1,8 +1,5 @@
-﻿using System.Timers;
-using FirebaseAdmin.Messaging;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PushAlertsApi.Models;
-using PushAlertsApi.Util;
 using Task = PushAlertsApi.Models.Task;
 using Timer = System.Timers.Timer;
 
@@ -24,15 +21,21 @@ namespace PushAlertsApi.Services
 
         }
 
-        public List<ReminderJob> GetAll()
+        public void ReloadTimerForEachJob(Action<IDisposable, Guid> onTimerFinished)
         {
-            return _dbSet.ToList();
+            var jobs = _dbSet.ToList();
+            jobs.ForEach(j =>
+            {
+                var timer = new Timer(_timerIntervalMillis);
+                timer.Elapsed += (o, args) => onTimerFinished(timer, j.Task.Uuid);
+                timer.Enabled = true;
+            });
         }
 
-        public ReminderJob Add(ReminderJob job, Project project, Action<IDisposable, Guid, Project> onTimerFinished)
+        public ReminderJob Add(ReminderJob job, Action<IDisposable, Guid> onTimerFinished)
         {
             var timer = new Timer(_timerIntervalMillis);
-            timer.Elapsed += (o, args) => onTimerFinished(timer, job.Task.Uuid, project);
+            timer.Elapsed += (o, args) => onTimerFinished(timer, job.Task.Uuid);
             timer.Enabled = true;
             _logger.LogDebug($"Add new reminder job with uuid: '{job.Uuid}' for task '{job.Task.Uuid}'");
             return _dbSet.Add(job).Entity;
@@ -45,7 +48,7 @@ namespace PushAlertsApi.Services
             _dbSet.RemoveRange();
         }
 
-        public void CleanUp()
+        public void RemoveOutdatedJobs()
         {
             var recently = DateTime.Now.Subtract(TimeSpan.FromMilliseconds(_timerIntervalMillis));
             var jobs = _dbSet.Where(j => j.CreatedAt < recently);
