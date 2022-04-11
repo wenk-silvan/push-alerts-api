@@ -18,24 +18,24 @@ namespace PushAlertsApi.Services
             _logger = new LoggerFactory().CreateLogger<ReminderJobService>();
             _dbSet = context;
             _timerIntervalMillis = reminderIntervalMillis;
-
         }
 
-        public void ReloadTimerForEachJob(Action<IDisposable, Guid> onTimerFinished)
+        public void ReloadTimerForEachJob(Action<IDisposable, int> onTimerFinished)
         {
             var jobs = _dbSet.ToList();
             jobs.ForEach(j =>
             {
-                var timer = new Timer(_timerIntervalMillis);
-                timer.Elapsed += (o, args) => onTimerFinished(timer, j.Task.Uuid);
+                var remainingMillis = _timerIntervalMillis - (DateTime.Now - j.CreatedAt).TotalMilliseconds;
+                var timer = new Timer(remainingMillis);
+                timer.Elapsed += (o, args) => onTimerFinished(timer, j.TaskIdForEagerLoading);
                 timer.Enabled = true;
             });
         }
 
-        public ReminderJob Add(ReminderJob job, Action<IDisposable, Guid> onTimerFinished)
+        public ReminderJob Add(ReminderJob job, Action<IDisposable, int> onTimerFinished)
         {
             var timer = new Timer(_timerIntervalMillis);
-            timer.Elapsed += (o, args) => onTimerFinished(timer, job.Task.Uuid);
+            timer.Elapsed += (o, args) => onTimerFinished(timer, job.TaskIdForEagerLoading);
             timer.Enabled = true;
             _logger.LogDebug($"Add new reminder job with uuid: '{job.Uuid}' for task '{job.Task.Uuid}'");
             return _dbSet.Add(job).Entity;
@@ -45,7 +45,7 @@ namespace PushAlertsApi.Services
         {
             var jobs = _dbSet.Where(j => j.Task.Id == task.Id);
             _logger.LogDebug($"Delete {jobs.Count()} reminder jobs with task uuid: '{task.Uuid}'");
-            _dbSet.RemoveRange();
+            _dbSet.RemoveRange(jobs);
         }
 
         public void RemoveOutdatedJobs()

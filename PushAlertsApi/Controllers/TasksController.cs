@@ -28,9 +28,9 @@ namespace PushAlertsApi.Controllers
 
         private readonly ReminderJobService _reminderJobService;
 
-        private readonly IServiceScopeFactory _serviceScopeFactory;
-
-        private const int ReminderIntervalMillis = 10000;
+        private readonly IServiceScopeFactory _serviceScopeFactory
+;
+        private const int ReminderIntervalMillis = 20000;
 
         public TasksController(ILogger<ProjectsController> logger, DataContext context,
             IServiceScopeFactory serviceScopeFactory)
@@ -72,10 +72,10 @@ namespace PushAlertsApi.Controllers
             {
                 var project = _projectsService.GetProject(uuidProject);
                 var newTask = _tasksService.AddTask(project, task);
-                //await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 _notificationsService.NotifyUsers($"Project {project.Name} has new task from {task.Source}", project,
                     newTask);
-                
+
                 _reminderJobService.Add(new ReminderJob(newTask), OnReminderJobTimerFinish);
                 await _context.SaveChangesAsync();
                 return Ok(newTask);
@@ -123,12 +123,12 @@ namespace PushAlertsApi.Controllers
             return BadRequest(MessageFormatter.ActionResultBadRequest());
         }
 
-        private void OnReminderJobTimerFinish(IDisposable timer, Guid taskUuid)
+        private void OnReminderJobTimerFinish(IDisposable timer, int taskId)
         {
             // Create new database context and tasks service because this gets executed in a separate thread.
             using var scope = _serviceScopeFactory.CreateScope();
             using var currentDbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-            var task = new TasksService(currentDbContext.Tasks).GetTask(taskUuid.ToString());
+            var task = new TasksService(currentDbContext.Tasks).GetTask(taskId);
             var project = new ProjectsService(currentDbContext.Projects).GetProject(task.ProjectId);
             if (task.Status == TaskState.Opened)
             {
@@ -138,9 +138,10 @@ namespace PushAlertsApi.Controllers
             else
             {
                 timer.Dispose();
-                //new ReminderJobService(currentDbContext.ReminderJobs, ReminderIntervalMillis).DeleteAll(task);
-                //currentDbContext.SaveChanges();
+                new ReminderJobService(currentDbContext.ReminderJobs, ReminderIntervalMillis).DeleteAll(task);
             }
+
+            currentDbContext.SaveChanges();
         }
     }
 }
