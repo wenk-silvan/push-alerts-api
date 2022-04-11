@@ -71,12 +71,5 @@ namespace PushAlertsApi.Services
             _logger.LogInformation($"Fetched one task from DB for uuid: '{uuid}' with id: '{task.Id}'");
             return task;
         }
-
-        public Task GetTask(int id)
-        {
-            var task = _dbSet.First(t => t.Id == id);
-            _logger.LogInformation($"Fetched one task from DB for id: '{id}");
-            return task;
-        }
     }
 }

@@ -20,6 +20,5 @@ namespace PushAlertsApi.Data
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<TaskNotification> Notifications { get; set; }
-        public virtual DbSet<ReminderJob> ReminderJobs { get; set; }
     }
 }
