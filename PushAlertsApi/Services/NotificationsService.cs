@@ -20,7 +20,6 @@ namespace PushAlertsApi.Services
             _logger = new LoggerFactory().CreateLogger<NotificationsService>();
             _dbSet = context;
             _messaging = messaging;
-
         }
 
         public bool NotifyUsers(string message, Project project, Task task)
@@ -43,7 +42,7 @@ namespace PushAlertsApi.Services
             {
                 var message = new Message()
                 {
-                    Data = new Dictionary<string, string>(),
+                    Data = null,
                     Notification = new Notification
                     {
                         Title = notification.Message,
