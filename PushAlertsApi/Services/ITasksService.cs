@@ -1,5 +1,4 @@
 ﻿using PushAlertsApi.Models;
-using PushAlertsApi.Models.Dto;
 using Task = PushAlertsApi.Models.Task;
 
 
@@ -13,7 +12,7 @@ namespace PushAlertsApi.Services
         /// <param name="project"></param>
         /// <param name="task"></param>
         /// <returns></returns>
-        public Task AddTask(Project project, TaskDto task);
+        public Task AddTask(Project project, Task task);
 
         /// <summary>
         /// Assigns the given task to given user

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PushAlertsApi.Data;
-using PushAlertsApi.Models.Dto;
+using PushAlertsApi.Models;
 using PushAlertsApi.Services;
 using PushAlertsApi.Util;
 
@@ -22,7 +22,7 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProjectDto>> Get()
+        public ActionResult<IEnumerable<Project>> Get()
         {
             try
             {

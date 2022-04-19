@@ -1,5 +1,4 @@
 ﻿using PushAlertsApi.Models;
-using PushAlertsApi.Models.Dto;
 
 namespace PushAlertsApi.Services
 {
@@ -9,7 +8,7 @@ namespace PushAlertsApi.Services
         /// Returns all projects
         /// </summary>
         /// <returns></returns>
-        public ICollection<ProjectDto> GetAllProjects();
+        public ICollection<Project> GetAllProjects();
 
         /// <summary>
         /// Returns the project with the given UUID.

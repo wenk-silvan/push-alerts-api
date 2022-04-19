@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PushAlertsApi.Models;
-using PushAlertsApi.Models.Dto;
 using Task = PushAlertsApi.Models.Task;
 
 namespace PushAlertsApi.Services
@@ -17,16 +16,10 @@ namespace PushAlertsApi.Services
             _dbSet = context;
         }
 
-        public Task AddTask(Project project, TaskDto task)
+        public Task AddTask(Project project, Task task)
         {
-            var dbTask = new Task(
-                task.Title,
-                task.Description,
-                task.Source,
-                project.Id,
-                task.Payload
-            );
-            var result = _dbSet.Add(dbTask);
+            task.ProjectId = project.Id;
+            var result = _dbSet.Add(task);
             _logger.LogInformation($"Added new task with uuid: '{task.Uuid}' to project with uuid: '{project.Uuid}'");
             return result.Entity;
         }

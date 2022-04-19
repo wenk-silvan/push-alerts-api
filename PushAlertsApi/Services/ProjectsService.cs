@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PushAlertsApi.Models;
-using PushAlertsApi.Models.Dto;
 
 namespace PushAlertsApi.Services
 {
@@ -16,11 +15,11 @@ namespace PushAlertsApi.Services
             _dbSet = context;
         }
 
-        public ICollection<ProjectDto> GetAllProjects()
+        public ICollection<Project> GetAllProjects()
         {
             var projects = _dbSet.ToList();
             _logger.LogInformation($"Fetched {projects.Count} projects from database.");
-            return ProjectDto.CopyAll(projects);
+            return projects;
         }
 
         public Project GetProject(string uuid)

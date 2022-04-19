@@ -3,9 +3,9 @@ using FirebaseAdmin.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using PushAlertsApi.Data;
 using PushAlertsApi.Models;
-using PushAlertsApi.Models.Dto;
 using PushAlertsApi.Services;
 using PushAlertsApi.Util;
+using Task = PushAlertsApi.Models.Task;
 
 namespace PushAlertsApi.Controllers
 {
@@ -28,7 +28,7 @@ namespace PushAlertsApi.Controllers
 
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        private const int ReminderIntervalMillis = 5000;
+        private const int ReminderIntervalMillis = 10000;
 
         public TasksController(ILogger<ProjectsController> logger, DataContext context,
             IServiceScopeFactory serviceScopeFactory)
@@ -44,13 +44,14 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpGet("{uuid}")]
-        public ActionResult<IEnumerable<TaskDto>> Get(string uuid)
+        public ActionResult<IEnumerable<Task>> Get(string uuid)
         {
             try
             {
                 var project = _projectsService.GetProject(uuid);
-                var tasks = TaskDto.CopyAll(project.Tasks!);
-                return Ok(tasks);
+                var tasks = project.Tasks;
+                tasks?.ForEach(t => t.UserEmail = t.User?.Email);
+                return Ok(project.Tasks);
             }
             catch (Exception ex)
             {
@@ -59,7 +60,7 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpPost("{uuidProject}")]
-        public async Task<ActionResult<TaskDto>> Post(string uuidProject, TaskDto task)
+        public async Task<ActionResult<Task>> Post(string uuidProject, Task task)
         {
             try
             {

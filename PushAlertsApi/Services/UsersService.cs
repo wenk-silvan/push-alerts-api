@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PushAlertsApi.Models;
-using PushAlertsApi.Models.Dto;
-using Task = PushAlertsApi.Models.Task;
 
 namespace PushAlertsApi.Services
 {
