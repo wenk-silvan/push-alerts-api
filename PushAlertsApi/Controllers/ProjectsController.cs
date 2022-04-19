@@ -13,7 +13,7 @@ namespace PushAlertsApi.Controllers
     {
         private readonly ILogger<ProjectsController> _logger;
 
-        private readonly ProjectsService _projectsService;
+        private readonly IProjectsService _projectsService;
 
         public ProjectsController(ILogger<ProjectsController> logger, DataContext context)
         {

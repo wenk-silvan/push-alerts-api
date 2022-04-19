@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PushAlertsApi.Controllers;
-using PushAlertsApi.Data;
 using PushAlertsApi.Models;
 using PushAlertsApi.Models.Dto;
 
 namespace PushAlertsApi.Services
 {
-    public class ProjectsService
+    public class ProjectsService : IProjectsService
     {
         private readonly ILogger<ProjectsService> _logger;
 

@@ -18,13 +18,13 @@ namespace PushAlertsApi.Controllers
 
         private readonly DataContext _context;
 
-        private readonly ProjectsService _projectsService;
+        private readonly IProjectsService _projectsService;
 
-        private readonly TasksService _tasksService;
+        private readonly ITasksService _tasksService;
 
-        private readonly UsersService _usersService;
+        private readonly IUsersService _usersService;
 
-        private readonly NotificationsService _notificationsService;
+        private readonly INotificationsService _notificationsService;
 
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
