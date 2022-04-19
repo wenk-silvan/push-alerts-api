@@ -12,7 +12,7 @@ namespace PushAlertsApi.Services
         /// <param name="project"></param>
         /// <param name="task"></param>
         /// <returns></returns>
-        public Task AddTask(Project project, Task task);
+        public Task AddTask(Project project, NewTask task);
 
         /// <summary>
         /// Assigns the given task to given user

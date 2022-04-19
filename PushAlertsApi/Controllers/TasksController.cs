@@ -60,7 +60,7 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpPost("{uuidProject}")]
-        public async Task<ActionResult<Task>> Post(string uuidProject, Task task)
+        public async Task<ActionResult<Task>> Post(string uuidProject, NewTask task)
         {
             try
             {
