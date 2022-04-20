@@ -3,4 +3,5 @@ PushAlertsApi.sln.DotSettings.user
 */obj/
 */bin/
 
-*.json
+PushAlertsApi/appsettings.json
+PushAlertsApi/firebase-adminsdk-key.json
