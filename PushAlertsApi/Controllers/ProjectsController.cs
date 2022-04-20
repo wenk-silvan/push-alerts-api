@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PushAlertsApi.Data;
+using PushAlertsApi.Filters;
 using PushAlertsApi.Models;
 using PushAlertsApi.Services;
 using PushAlertsApi.Util;
@@ -8,6 +9,7 @@ namespace PushAlertsApi.Controllers
 {
     [ApiController]
     [ApiVersion("0.1")]
+    [ApiKeyAuth]
     [Route("api/[controller]")]
     public class ProjectsController : ControllerBase
     {
