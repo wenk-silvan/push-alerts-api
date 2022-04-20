@@ -1,7 +1,0 @@
-﻿C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Dto\ProjectDto.cs
-C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Dto\TaskDto.cs
-C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Dto\UserDto.cs
-C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Project.cs
-C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Task.cs
-C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\TaskState.cs
-C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\User.cs

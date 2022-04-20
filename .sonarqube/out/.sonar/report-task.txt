@@ -1,6 +1,0 @@
-projectKey=PushAlertsApi
-serverUrl=http://localhost:9000
-serverVersion=9.3.0.51899
-dashboardUrl=http://localhost:9000/dashboard?id=PushAlertsApi
-ceTaskId=AX-8wCphAIEYqmigdzgj
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AX-8wCphAIEYqmigdzgj
