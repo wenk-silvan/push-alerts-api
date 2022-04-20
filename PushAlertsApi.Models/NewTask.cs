@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
-
-namespace PushAlertsApi.Models
+﻿namespace PushAlertsApi.Models
 {
     public class NewTask
     {
