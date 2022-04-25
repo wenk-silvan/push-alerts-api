@@ -88,7 +88,7 @@ namespace PushAlertsApi.Controllers
         {
             try
             {
-                var user = _usersService.GetUser(uuidUser);
+                var user = _usersService.GetUserByUuid(uuidUser);
                 _tasksService.AssignTask(uuidTask, user);
                 _context.SaveChanges();
                 return Ok();
