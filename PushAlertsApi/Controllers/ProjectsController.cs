@@ -9,7 +9,6 @@ namespace PushAlertsApi.Controllers
 {
     [ApiController]
     [ApiVersion("0.1")]
-    [ApiKeyAuth]
     [Route("api/[controller]")]
     public class ProjectsController : ControllerBase
     {

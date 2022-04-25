@@ -1,7 +1,7 @@
-using System.Timers;
 using FirebaseAdmin.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using PushAlertsApi.Data;
+using PushAlertsApi.Filters;
 using PushAlertsApi.Models;
 using PushAlertsApi.Services;
 using PushAlertsApi.Util;
@@ -59,6 +59,7 @@ namespace PushAlertsApi.Controllers
             }
         }
 
+        [ApiKeyAuth]
         [HttpPost("{uuidProject}")]
         public async Task<ActionResult<Task>> Post(string uuidProject, NewTask task)
         {
