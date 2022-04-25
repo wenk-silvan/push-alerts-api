@@ -25,6 +25,14 @@ namespace PushAlertsApi.Models
             Email = string.Empty;
         }
 
+        public User(string email)
+        {
+            PasswordHash = Array.Empty<byte>();
+            PasswordSalt = Array.Empty<byte>();
+            Uuid = Guid.NewGuid();
+            Email = email;
+        }
+
         public User(string email, byte[] passwordHash, byte[] passwordSalt)
         {
             Uuid = Guid.NewGuid();
