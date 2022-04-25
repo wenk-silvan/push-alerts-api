@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PushAlertsApi.Models
 {
@@ -10,18 +11,26 @@ namespace PushAlertsApi.Models
 
         public string Email { get; set; }
 
+        public byte[] PasswordHash { get; set; }
+
+        public byte[] PasswordSalt { get; set; }
+
         [JsonIgnore] public virtual List<Project>? Projects { get; set; } = new();
 
-        public User(string email)
+        public User()
+        {
+            PasswordHash = Array.Empty<byte>();
+            PasswordSalt = Array.Empty<byte>();
+            Uuid = Guid.Empty;
+            Email = string.Empty;
+        }
+
+        public User(string email, byte[] passwordHash, byte[] passwordSalt)
         {
             Uuid = Guid.NewGuid();
             Email = email;
-        }
-
-        public User(Guid uuid, string email)
-        {
-            Uuid = uuid;
-            Email = email;
+            PasswordHash = passwordHash;
+            PasswordSalt = passwordSalt;
         }
     }
 }
