@@ -1,4 +1,5 @@
 using FirebaseAdmin.Messaging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PushAlertsApi.Data;
 using PushAlertsApi.Filters;

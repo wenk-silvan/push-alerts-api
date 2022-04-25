@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PushAlertsApi.Data;
 using PushAlertsApi.Filters;
@@ -22,7 +23,7 @@ namespace PushAlertsApi.Controllers
             _projectsService = new ProjectsService(context.Projects);
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public ActionResult<IEnumerable<Project>> Get()
         {
             try
