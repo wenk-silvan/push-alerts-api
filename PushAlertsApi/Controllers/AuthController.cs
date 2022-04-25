@@ -29,13 +29,13 @@ namespace PushAlertsApi.Controllers
                 return BadRequest("Invalid email or password.");
             }
 
-            if (_usersService.GetUserByEmail(email) != null)
+            if (_usersService.GetUserByEmail(email!) != null)
             {
                 return BadRequest("User already exists.");
             }
 
-            _usersService.CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
-            var user = _usersService.AddUser(new User(email, passwordHash, passwordSalt));
+            _usersService.CreatePasswordHash(password!, out var passwordHash, out var passwordSalt);
+            var user = _usersService.AddUser(new User(email!, passwordHash, passwordSalt));
             _context.SaveChanges();
             return Ok(user);
         }
@@ -46,13 +46,13 @@ namespace PushAlertsApi.Controllers
             var email = request?.Email.Trim().ToLower();
             var password = request?.Password.Trim();
 
-            var potentialUser = _usersService.GetUserByEmail(email);
+            var potentialUser = _usersService.GetUserByEmail(email!);
             if (potentialUser == null || potentialUser.Email != email)
             {
                 return BadRequest("User not found.");
             }
 
-            if (!_usersService.VerifyPasswordHash(password, potentialUser.PasswordHash,
+            if (!_usersService.VerifyPasswordHash(password!, potentialUser.PasswordHash,
                     potentialUser.PasswordSalt))
             {
                 return BadRequest("Wrong password.");
