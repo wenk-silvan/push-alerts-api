@@ -196,7 +196,7 @@ namespace PushAlertsApi.Tests
 
             // Act
             var usersService = new UsersService(expected.AsQueryable().BuildMockDbSet());
-            var token = usersService.CreateToken(alice, jwtKey);
+            var token = usersService.CreateToken(alice, jwtKey, DateTime.Now.AddDays(1).ToUniversalTime());
 
             // Assert
             Assert.IsNotNull(token);

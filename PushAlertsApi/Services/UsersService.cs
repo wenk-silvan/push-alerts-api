@@ -51,7 +51,7 @@ namespace PushAlertsApi.Services
             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
 
-        public string CreateToken(User user, string jwtKey)
+        public string CreateToken(User user, string jwtKey, DateTime expiry)
         {
             var claims = new List<Claim>
             {
@@ -62,7 +62,7 @@ namespace PushAlertsApi.Services
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                expires: expiry,
                 signingCredentials: credentials);
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;

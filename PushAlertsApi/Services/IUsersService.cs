@@ -36,10 +36,11 @@ namespace PushAlertsApi.Services
         /// <summary>
         /// Creates a new jwt token for symmetric encryption from given jwt key and using the claims (email) of the user
         /// </summary>
-        /// <param name="user"></param>
-        /// <param name="jwtKey"></param>
+        /// <param name="user">The user to get the email as user claim</param>
+        /// <param name="jwtKey">The encryption key</param>
+        /// <param name="expiry">Any DateTime in the future</param>
         /// <returns></returns>
-        public string CreateToken(User user, string jwtKey);
+        public string CreateToken(User user, string jwtKey, DateTime expiry);
 
         /// <summary>
         /// Computes the given password and verifies equality to given salted hash

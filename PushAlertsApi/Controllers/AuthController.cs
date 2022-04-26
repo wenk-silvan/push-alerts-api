@@ -6,6 +6,9 @@ using PushAlertsApi.Services;
 
 namespace PushAlertsApi.Controllers
 {
+    [ApiController]
+    [ApiVersion("0.1")]
+    [Route("api/")]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -41,7 +44,7 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult<string> Login([FromBody] Credentials? request)
+        public ActionResult<Token> Login([FromBody] Credentials? request)
         {
             var email = request?.Email.Trim().ToLower();
             var password = request?.Password.Trim();
@@ -58,8 +61,9 @@ namespace PushAlertsApi.Controllers
                 return BadRequest("Wrong password.");
             }
 
-            var token = _usersService.CreateToken(potentialUser, _configuration.GetSection("Jwt:Key").Value);
-            return Ok(token);
+            var expiry = DateTime.Now.AddDays(1).ToUniversalTime();
+            var token = _usersService.CreateToken(potentialUser, _configuration.GetSection("Jwt:Key").Value, expiry);
+            return Ok(new Token(token, expiry));
         }
 
         private static bool IsEmailValid(string? email)
@@ -72,6 +76,13 @@ namespace PushAlertsApi.Controllers
         private static bool IsPasswordValid(string? password)
         {
             return !password.IsNullOrEmpty();
+        }
+
+        private static double GetTotalMilliseconds(DateTime dateTime)
+        {
+            return dateTime.ToUniversalTime().Subtract(
+                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+            ).TotalMilliseconds;
         }
     }
 }
