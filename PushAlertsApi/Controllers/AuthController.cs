@@ -63,7 +63,7 @@ namespace PushAlertsApi.Controllers
 
             var expiry = DateTime.Now.AddDays(1).ToUniversalTime();
             var token = _usersService.CreateToken(potentialUser, _configuration.GetSection("Jwt:Key").Value, expiry);
-            return Ok(new Token(token, expiry));
+            return Ok(new Token(token, expiry, potentialUser.Email, potentialUser.Uuid));
         }
 
         private static bool IsEmailValid(string? email)
@@ -76,13 +76,6 @@ namespace PushAlertsApi.Controllers
         private static bool IsPasswordValid(string? password)
         {
             return !password.IsNullOrEmpty();
-        }
-
-        private static double GetTotalMilliseconds(DateTime dateTime)
-        {
-            return dateTime.ToUniversalTime().Subtract(
-                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-            ).TotalMilliseconds;
         }
     }
 }
