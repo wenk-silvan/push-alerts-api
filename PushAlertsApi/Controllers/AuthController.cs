@@ -1,6 +1,7 @@
 ﻿using Castle.Core.Internal;
 using Microsoft.AspNetCore.Mvc;
 using PushAlertsApi.Data;
+using PushAlertsApi.Filters;
 using PushAlertsApi.Models;
 using PushAlertsApi.Services;
 
@@ -22,6 +23,7 @@ namespace PushAlertsApi.Controllers
             _usersService = new UsersService(context.Users);
         }
 
+        [ApiKeyAuth]
         [HttpPost("register")]
         public ActionResult Register([FromBody] Credentials request)
         {
