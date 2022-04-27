@@ -7,14 +7,14 @@
 
         public string Email { get; set; }
 
-        public Guid UUID { get; set; }
+        public Guid Uuid { get; set; }
 
         public Token(string value, DateTime expiryUtc, string email, Guid uuid)
         {
             Value = value;
             ExpiryUtc = expiryUtc;
             Email = email;
-            UUID = UUID;
+            Uuid = uuid;
         }
     }
 }

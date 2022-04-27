@@ -11,7 +11,7 @@ namespace PushAlertsApi.Services
         public ICollection<Project> GetAllProjects();
 
         /// <summary>
-        /// Returns the project with the given UUID.
+        /// Returns the project with the given Uuid.
         /// </summary>
         /// <param name="uuid">Unique identifier for a project</param>
         /// <returns></returns>

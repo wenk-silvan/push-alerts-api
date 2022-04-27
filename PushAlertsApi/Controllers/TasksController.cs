@@ -62,7 +62,7 @@ namespace PushAlertsApi.Controllers
 
         [ApiKeyAuth]
         [HttpPost("{uuidProject}")]
-        public async Task<ActionResult<Task>> Post(string uuidProject, NewTask task)
+        public async Task<ActionResult<Task>> Post([FromHeader(Name = "ApiKey")] string key, string uuidProject, NewTask task)
         {
             try
             {

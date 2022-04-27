@@ -29,7 +29,7 @@ namespace PushAlertsApi.Services
         public void CloseTask(string uuid, TaskState status);
 
         /// <summary>
-        /// Returns the task with the given UUID
+        /// Returns the task with the given Uuid
         /// </summary>
         /// <param name="uuid">A unique identifier for a task</param>
         /// <returns></returns>
