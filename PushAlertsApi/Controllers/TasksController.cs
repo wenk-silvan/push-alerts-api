@@ -11,6 +11,7 @@ using Task = PushAlertsApi.Models.Task;
 namespace PushAlertsApi.Controllers
 {
     [ApiController]
+    [Authorize]
     [ApiVersion("0.1")]
     [Route("api/[controller]")]
     public class TasksController : ControllerBase
@@ -61,8 +62,9 @@ namespace PushAlertsApi.Controllers
         }
 
         [ApiKeyAuth]
-        [HttpPost("{uuidProject}")]
-        public async Task<ActionResult<Task>> Post([FromHeader(Name = "ApiKey")] string key, string uuidProject, NewTask task)
+        [HttpPost("{uuidProject}"), AllowAnonymous]
+        public async Task<ActionResult<Task>> Post([FromHeader(Name = "ApiKey")] string key, string uuidProject,
+            NewTask task)
         {
             try
             {

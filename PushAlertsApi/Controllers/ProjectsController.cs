@@ -9,6 +9,7 @@ using PushAlertsApi.Util;
 namespace PushAlertsApi.Controllers
 {
     [ApiController]
+    [Authorize]
     [ApiVersion("0.1")]
     [Route("api/[controller]")]
     public class ProjectsController : ControllerBase
@@ -23,7 +24,7 @@ namespace PushAlertsApi.Controllers
             _projectsService = new ProjectsService(context.Projects);
         }
 
-        [HttpGet, Authorize]
+        [HttpGet]
         public ActionResult<IEnumerable<Project>> Get()
         {
             try
