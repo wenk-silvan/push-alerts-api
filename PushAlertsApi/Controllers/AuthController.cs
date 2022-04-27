@@ -25,7 +25,7 @@ namespace PushAlertsApi.Controllers
 
         [ApiKeyAuth]
         [HttpPost("register")]
-        public ActionResult Register([FromHeader(Name = "ApiKey")] String key, [FromBody] Credentials request)
+        public ActionResult Register([FromHeader(Name = "ApiKey")] string key, [FromBody] Credentials request)
         {
             var email = request?.Email.Trim().ToLower();
             var password = request?.Password.Trim();
@@ -63,7 +63,7 @@ namespace PushAlertsApi.Controllers
                 return BadRequest("Wrong password.");
             }
 
-            var expiry = DateTime.Now.AddDays(1).ToUniversalTime();
+            var expiry = DateTime.Now.AddMinutes(5).ToUniversalTime();
             var token = _usersService.CreateToken(potentialUser, _configuration.GetSection("Jwt:Key").Value, expiry);
             return Ok(new Token(token, expiry, potentialUser.Email, potentialUser.Uuid));
         }
