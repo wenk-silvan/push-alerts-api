@@ -25,7 +25,7 @@ namespace PushAlertsApi.Controllers
 
         [ApiKeyAuth]
         [HttpPost("register")]
-        public ActionResult Register([FromBody] Credentials request)
+        public ActionResult Register([FromHeader(Name = "ApiKey")] String key, [FromBody] Credentials request)
         {
             var email = request?.Email.Trim().ToLower();
             var password = request?.Password.Trim();
