@@ -4,6 +4,10 @@ using Task = PushAlertsApi.Models.Task;
 
 namespace PushAlertsApi.Data
 {
+    /// <summary>
+    /// This class represents the PushAlerts database structure.
+    /// Each DbSet property represents a database table which is created or updated during an Entity Framework migration.
+    /// </summary>
     public class DataContext : DbContext
     {
 

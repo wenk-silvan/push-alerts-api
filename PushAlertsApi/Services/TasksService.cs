@@ -4,6 +4,9 @@ using Task = PushAlertsApi.Models.Task;
 
 namespace PushAlertsApi.Services
 {
+    /// <summary>
+    /// See interface for code documentation
+    /// </summary>
     public class TasksService : ITasksService
     {
         private readonly ILogger<TasksService> _logger;

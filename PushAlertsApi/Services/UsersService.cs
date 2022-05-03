@@ -7,6 +7,9 @@ using PushAlertsApi.Models;
 
 namespace PushAlertsApi.Services
 {
+    /// <summary>
+    /// See interface for code documentation
+    /// </summary>
     public class UsersService : IUsersService
     {
         private readonly ILogger<UsersService> _logger;

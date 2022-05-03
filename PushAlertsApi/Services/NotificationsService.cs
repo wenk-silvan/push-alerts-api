@@ -7,6 +7,9 @@ using Task = PushAlertsApi.Models.Task;
 
 namespace PushAlertsApi.Services
 {
+    /// <summary>
+    /// See interface for code documentation
+    /// </summary>
     public class NotificationsService : INotificationsService
     {
         private readonly ILogger<NotificationsService> _logger;
@@ -21,7 +24,7 @@ namespace PushAlertsApi.Services
             _dbSet = context;
             _messaging = messaging;
         }
-
+        
         public bool NotifyUsers(string message, Project project, Task task)
         {
             var notification = new TaskNotification(message, task);

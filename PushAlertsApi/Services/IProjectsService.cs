@@ -2,6 +2,10 @@
 
 namespace PushAlertsApi.Services
 {
+    /// <summary>
+    /// Serves as a contract for the ProjectsService to meet the business needs.
+    /// This service should do CRUD operations to the database context regarding projects.
+    /// </summary>
     public interface IProjectsService
     {
         /// <summary>

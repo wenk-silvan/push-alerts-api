@@ -4,6 +4,10 @@ using Task = PushAlertsApi.Models.Task;
 
 namespace PushAlertsApi.Services
 {
+    /// <summary>
+    /// Serves as a contract for the TasksService to meet the business needs.
+    /// This service should do CRUD operations to the database context regarding tasks.
+    /// </summary>
     public interface ITasksService
     {
         /// <summary>

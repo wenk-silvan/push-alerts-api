@@ -3,6 +3,9 @@ using PushAlertsApi.Models;
 
 namespace PushAlertsApi.Services
 {
+    /// <summary>
+    /// See interface for code documentation
+    /// </summary>
     public class ProjectsService : IProjectsService
     {
         private readonly ILogger<ProjectsService> _logger;

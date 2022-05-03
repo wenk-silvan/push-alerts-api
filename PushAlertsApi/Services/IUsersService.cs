@@ -2,6 +2,10 @@
 
 namespace PushAlertsApi.Services
 {
+    /// <summary>
+    /// Serves as a contract for the UsersService to meet the business needs.
+    /// This service should do CRUD operations to the database context regarding users and authentication related work.
+    /// </summary>
     public interface IUsersService
     {
         /// <summary>
