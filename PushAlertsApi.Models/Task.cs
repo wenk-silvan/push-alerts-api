@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace PushAlertsApi.Models
 {
+    /// <summary>
+    /// Represents a task. Certain properties are not part of the json serialization and certain properties are not mapped to the database.
+    /// </summary>
     public class Task
     {
         [JsonIgnore] public int Id { get; set; }

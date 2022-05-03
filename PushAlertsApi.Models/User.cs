@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace PushAlertsApi.Models
 {
+    /// <summary>
+    /// Represents a user that is using the app in an authenticated way. Certain properties are not part of the JSON serialization.
+    /// </summary>
     public class User
     {
         [JsonIgnore] public int Id { get; set; }

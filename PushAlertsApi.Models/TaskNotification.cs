@@ -1,5 +1,8 @@
 ﻿namespace PushAlertsApi.Models
 {
+    /// <summary>
+    /// Represents a push notification.
+    /// </summary>
     public class TaskNotification
     {
         public int Id { get; set; }

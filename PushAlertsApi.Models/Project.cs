@@ -2,6 +2,9 @@
 
 namespace PushAlertsApi.Models
 {
+    /// <summary>
+    /// Represents a project. Certain properties are not part of the json serialization
+    /// </summary>
     public class Project
     {
         [JsonIgnore] public int Id { get; set; }
