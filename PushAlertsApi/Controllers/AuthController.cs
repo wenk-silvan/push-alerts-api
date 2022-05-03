@@ -7,8 +7,11 @@ using PushAlertsApi.Services;
 
 namespace PushAlertsApi.Controllers
 {
+    /// <summary>
+    /// This Api Controller is responsible for all authentication related requests.
+    /// It is unauthorized and the endpoints can be reached without authentication.
+    /// </summary>
     [ApiController]
-    [ApiVersion("0.1")]
     [Route("api/")]
     public class AuthController : ControllerBase
     {
@@ -23,6 +26,14 @@ namespace PushAlertsApi.Controllers
             _usersService = new UsersService(context.Users);
         }
 
+        /// <summary>
+        /// Calls UserService instance to add the user to the database with a new password hash.
+        /// The email and password are getting validated minimal.
+        /// This endpoint requires the ApiKey authentication as specified in the custom ApiKeyAuth attribute.
+        /// </summary>
+        /// <param name="key">The api key as header parameter</param>
+        /// <param name="request">The credentials as body</param>
+        /// <returns>The new created user with Email and UUID</returns>
         [ApiKeyAuth]
         [HttpPost("register")]
         public ActionResult Register([FromHeader(Name = "ApiKey")] string key, [FromBody] Credentials request)
@@ -45,6 +56,12 @@ namespace PushAlertsApi.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Calls the UserService instance to verify email and password
+        /// Then a new JSON Web Token gets created based on the configured expiry time and symmetric key
+        /// </summary>
+        /// <param name="request">The credentials according to the Credentials class</param>
+        /// <returns>The new token to use as session key</returns>
         [HttpPost("login")]
         public ActionResult<Token> Login([FromBody] Credentials? request)
         {

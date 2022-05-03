@@ -10,9 +10,12 @@ using Task = PushAlertsApi.Models.Task;
 
 namespace PushAlertsApi.Controllers
 {
+    /// <summary>
+    /// This Api Controller is responsible for all tasks related requests.
+    /// It is authorized and the endpoints can only be reached if the user is authenticated towards the server.
+    /// </summary>
     [ApiController]
     [Authorize]
-    [ApiVersion("0.1")]
     [Route("api/[controller]")]
     public class TasksController : ControllerBase
     {
@@ -46,6 +49,11 @@ namespace PushAlertsApi.Controllers
             _serviceScopeFactory = serviceScopeFactory;
         }
 
+        /// <summary>
+        /// Calls the ProjectsService instance to get all tasks of the given project uuid using EF lazy-loading
+        /// </summary>
+        /// <param name="uuid"></param>
+        /// <returns>A list of tasks which are part of the project with the given uuid</returns>
         [HttpGet("{uuid}")]
         public ActionResult<IEnumerable<Task>> GetAllOfProject(string uuid)
         {
@@ -62,6 +70,15 @@ namespace PushAlertsApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Calls the ProjectsService instance to fetch the project with the given uuid and the TasksService instance to add the given task to this project.
+        /// Then notifies users via the topic through the NotificationsService instance and registers a timer to setup the reminder job.
+        /// This endpoint allows anonymous access but requires the ApiKey (see ApiKey Attribute).
+        /// </summary>
+        /// <param name="key">The api key as configured in the appsettings.json</param>
+        /// <param name="uuidProject">The uuid of the project that the task should be added</param>
+        /// <param name="task">The task with its required and optional properties</param>
+        /// <returns></returns>
         [ApiKeyAuth]
         [HttpPost("{uuidProject}"), AllowAnonymous]
         public async Task<ActionResult<Task>> Add([FromHeader(Name = "ApiKey")] string key, string uuidProject,
@@ -89,6 +106,12 @@ namespace PushAlertsApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Calls the usersService instance to fetch the user with the give uuid and the TasksService instance to assign this user to the task.
+        /// </summary>
+        /// <param name="uuidTask">The uuid of the task that is modified</param>
+        /// <param name="uuidUser">The uuid of the user that should be assigned</param>
+        /// <returns>Empty successful http response</returns>
         [HttpPut("{uuidTask}/assign/{uuidUser}")]
         public ActionResult Assign(string uuidTask, string uuidUser)
         {
@@ -105,6 +128,12 @@ namespace PushAlertsApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Calls the TasksService instance to close the task
+        /// </summary>
+        /// <param name="uuidTask">The uuid of the task that is modified</param>
+        /// <param name="status">The status to which the task should be set</param>
+        /// <returns></returns>
         [HttpPut("{uuidTask}/close/")]
         public ActionResult Close(string uuidTask, TaskState status)
         {

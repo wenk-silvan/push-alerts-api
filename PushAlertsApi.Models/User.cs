@@ -11,9 +11,9 @@ namespace PushAlertsApi.Models
 
         public string Email { get; set; }
 
-        public byte[] PasswordHash { get; set; }
+        [JsonIgnore] public byte[] PasswordHash { get; set; }
 
-        public byte[] PasswordSalt { get; set; }
+        [JsonIgnore] public byte[] PasswordSalt { get; set; }
 
         [JsonIgnore] public virtual List<Project>? Projects { get; set; } = new();
 

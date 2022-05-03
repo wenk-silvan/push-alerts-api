@@ -7,9 +7,12 @@ using PushAlertsApi.Util;
 
 namespace PushAlertsApi.Controllers
 {
+    /// <summary>
+    /// This Api Controller is responsible for all project related requests.
+    /// It is authorized and the endpoints can only be reached if the user is authenticated towards the server.
+    /// </summary>
     [ApiController]
     [Authorize]
-    [ApiVersion("0.1")]
     [Route("api/[controller]")]
     public class ProjectsController : ControllerBase
     {
@@ -23,6 +26,10 @@ namespace PushAlertsApi.Controllers
             _projectsService = new ProjectsService(context.Projects);
         }
 
+        /// <summary>
+        /// Calls the ProjectsService instance to fetch all projects
+        /// </summary>
+        /// <returns>A list of projects</returns>
         [HttpGet]
         public ActionResult<IEnumerable<Project>> Get()
         {
