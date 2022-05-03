@@ -30,13 +30,14 @@ namespace PushAlertsApi.Controllers
 
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        private const int ReminderIntervalMillis = 10000;
+        private readonly IConfiguration _configuration;
 
-        public TasksController(ILogger<ProjectsController> logger, DataContext context,
+        public TasksController(IConfiguration configuration, ILogger<ProjectsController> logger, DataContext context,
             IServiceScopeFactory serviceScopeFactory)
         {
             _logger = logger;
             _context = context;
+            _configuration = configuration;
             _projectsService = new ProjectsService(context.Projects);
             _tasksService = new TasksService(context.Tasks);
             _usersService = new UsersService(context.Users);
@@ -46,7 +47,7 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpGet("{uuid}")]
-        public ActionResult<IEnumerable<Task>> Get(string uuid)
+        public ActionResult<IEnumerable<Task>> GetAllOfProject(string uuid)
         {
             try
             {
@@ -63,7 +64,7 @@ namespace PushAlertsApi.Controllers
 
         [ApiKeyAuth]
         [HttpPost("{uuidProject}"), AllowAnonymous]
-        public async Task<ActionResult<Task>> Post([FromHeader(Name = "ApiKey")] string key, string uuidProject,
+        public async Task<ActionResult<Task>> Add([FromHeader(Name = "ApiKey")] string key, string uuidProject,
             NewTask task)
         {
             try
@@ -73,7 +74,10 @@ namespace PushAlertsApi.Controllers
                 await _context.SaveChangesAsync();
                 _notificationsService.NotifyUsers($"Project {project.Name} has new task from {task.Source}", project,
                     newTask);
-                var timer = new System.Timers.Timer(ReminderIntervalMillis);
+                var seconds = int.TryParse(_configuration.GetSection("ReminderSeconds").Value, out var result)
+                    ? result
+                    : 1800;
+                var timer = new System.Timers.Timer(seconds * 1000);
                 timer.Elapsed += ((sender, args) => OnReminderJobTimerFinish(timer, newTask.Uuid));
                 timer.Enabled = true;
                 await _context.SaveChangesAsync();
@@ -86,7 +90,7 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpPut("{uuidTask}/assign/{uuidUser}")]
-        public ActionResult Put(string uuidTask, string uuidUser)
+        public ActionResult Assign(string uuidTask, string uuidUser)
         {
             try
             {
@@ -102,7 +106,7 @@ namespace PushAlertsApi.Controllers
         }
 
         [HttpPut("{uuidTask}/close/")]
-        public ActionResult Put(string uuidTask, TaskState status)
+        public ActionResult Close(string uuidTask, TaskState status)
         {
             try
             {

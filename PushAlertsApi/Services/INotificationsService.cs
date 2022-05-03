@@ -11,7 +11,7 @@ namespace PushAlertsApi.Services
         /// <param name="message">The message to give to the users</param>
         /// <param name="project">The project in which users are part of</param>
         /// <param name="task">The task related to the message</param>
-        /// <returns></returns>
+        /// <returns>True if sending the notification to the FCM was successful</returns>
         public bool NotifyUsers(string message, Project project, Task task);
     }
 }

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PushAlertsApi.Data;
-using PushAlertsApi.Filters;
 using PushAlertsApi.Models;
 using PushAlertsApi.Services;
 using PushAlertsApi.Util;

@@ -17,7 +17,7 @@ namespace PushAlertsApi.Filters
             }
 
             var configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
-            var apiKey = configuration.GetValue<string>("ApiKey");
+            var apiKey = configuration.GetValue<string>(ApiKeyHeaderName);
 
             if (!apiKey.Equals(potentialApiKey))
             {

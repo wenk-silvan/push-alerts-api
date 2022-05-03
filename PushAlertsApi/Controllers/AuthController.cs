@@ -63,7 +63,8 @@ namespace PushAlertsApi.Controllers
                 return BadRequest("Wrong password.");
             }
 
-            var expiry = DateTime.Now.AddMinutes(5).ToUniversalTime();
+            var days = int.TryParse(_configuration.GetSection("Jwt:Days").Value, out var result) ? result : 14;
+            var expiry = DateTime.Now.AddDays(days).ToUniversalTime();
             var token = _usersService.CreateToken(potentialUser, _configuration.GetSection("Jwt:Key").Value, expiry);
             return Ok(new Token(token, expiry, potentialUser.Email, potentialUser.Uuid));
         }
