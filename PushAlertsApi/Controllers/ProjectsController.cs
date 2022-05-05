@@ -30,12 +30,12 @@ namespace PushAlertsApi.Controllers
         /// Calls the ProjectsService instance to fetch all projects
         /// </summary>
         /// <returns>A list of projects</returns>
-        [HttpGet]
-        public ActionResult<IEnumerable<Project>> Get()
+        [HttpGet("{uuidUser}")]
+        public ActionResult<IEnumerable<Project>> Get(string uuidUser)
         {
             try
             {
-                return Ok(_projectsService.GetAllProjects());
+                return Ok(_projectsService.GetAllProjects(uuidUser));
             }
             catch (Exception ex)
             {

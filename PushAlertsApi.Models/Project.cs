@@ -17,6 +17,6 @@ namespace PushAlertsApi.Models
 
         [JsonIgnore] public virtual List<Task>? Tasks { get; set; } = new();
 
-        [JsonIgnore] public virtual List<User>? Users { get; set; } = new();
+        [JsonIgnore] public virtual List<User> Users { get; set; } = new();
     }
 }

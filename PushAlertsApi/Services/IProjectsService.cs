@@ -9,10 +9,11 @@ namespace PushAlertsApi.Services
     public interface IProjectsService
     {
         /// <summary>
-        /// Returns all projects
+        /// Returns all projects where the user is part of.
         /// </summary>
+        /// <param name="uuidUser">Unique identifier for a user</param>
         /// <returns></returns>
-        public ICollection<Project> GetAllProjects();
+        public ICollection<Project> GetAllProjects(string uuidUser);
 
         /// <summary>
         /// Returns the project with the given Uuid.

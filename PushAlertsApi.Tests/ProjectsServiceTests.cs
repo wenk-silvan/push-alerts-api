@@ -18,6 +18,8 @@ namespace PushAlertsApi.Tests
         [Test]
         public void GetAllProjects_Normal()
         {
+            var alice = new User("alice@schindler.com");
+            var bob = new User("bob@schindler.com");
             // Arrange
             List<Project> expected = new()
             {
@@ -27,8 +29,8 @@ namespace PushAlertsApi.Tests
                     Id = 1,
                     Name = "Alpha",
                     Tasks = null,
-                    Users = null,
-                    Uuid = System.Guid.Parse("817756de-31f7-4537-844d-6beea0159002")
+                    Users = new List<User> { alice },
+                    Uuid = Guid.Parse("817756de-31f7-4537-844d-6beea0159002")
                 },
                 new Project
                 {
@@ -36,24 +38,21 @@ namespace PushAlertsApi.Tests
                     Id = 2,
                     Name = "Beta",
                     Tasks = null,
-                    Users = null,
-                    Uuid = System.Guid.Parse("eb44db73-c2c4-4653-b71c-12462474e0d2")
+                    Users = new List<User> { bob },
+                    Uuid = Guid.Parse("eb44db73-c2c4-4653-b71c-12462474e0d2")
                 }
             };
 
             // Act
             var projectsService = new ProjectsService(expected.AsQueryable().BuildMockDbSet());
-            var actual = projectsService.GetAllProjects().ToList();
+            var actual = projectsService.GetAllProjects(alice.Uuid.ToString()).ToList();
 
             // Assert
             Assert.IsNotNull(actual);
-            Assert.AreEqual(expected.Count, actual.Count);
+            Assert.AreEqual(1, actual.Count);
             Assert.AreEqual(expected.First().Uuid, actual.First().Uuid);
             Assert.AreEqual(expected.First().Name, actual.First().Name);
             Assert.AreEqual(expected.First().Description, actual.First().Description);
-            Assert.AreEqual(expected.Last().Uuid, actual.Last().Uuid);
-            Assert.AreEqual(expected.Last().Name, actual.Last().Name);
-            Assert.AreEqual(expected.Last().Description, actual.Last().Description);
         }
 
         [Test]
@@ -64,7 +63,7 @@ namespace PushAlertsApi.Tests
 
             // Act
             var projectsService = new ProjectsService(expected.AsQueryable().BuildMockDbSet());
-            var actual = projectsService.GetAllProjects().ToList();
+            var actual = projectsService.GetAllProjects(Guid.NewGuid().ToString()).ToList();
 
             // Assert
             Assert.IsNotNull(actual);
