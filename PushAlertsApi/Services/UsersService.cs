@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.AccessControl;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
@@ -52,6 +53,7 @@ namespace PushAlertsApi.Services
             using var hmac = new HMACSHA512();
             passwordSalt = hmac.Key;
             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            _logger.LogInformation($"Created password salt: '{passwordSalt}', and password hash: '{passwordHash}'");
         }
 
         public string CreateToken(User user, string jwtKey, DateTime expiry)
@@ -68,6 +70,7 @@ namespace PushAlertsApi.Services
                 expires: expiry,
                 signingCredentials: credentials);
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            _logger.LogInformation($"Created json web token: '{jwt}'");
             return jwt;
         }
 
@@ -75,7 +78,9 @@ namespace PushAlertsApi.Services
         {
             using var hmac = new HMACSHA512(passwordSalt);
             var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            return computedHash.SequenceEqual(passwordHash);
+            var equality = computedHash.SequenceEqual(passwordHash);
+            _logger.LogInformation($"Password hashes are equal = {equality}");
+            return equality;
         }
     }
 }
