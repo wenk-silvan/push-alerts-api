@@ -22,7 +22,7 @@ namespace PushAlertsApi.Services
         {
             var uuid = Guid.TryParse(uuidUser, out var result) ? result : Guid.Empty;
             var projects = _dbSet
-                .Where(p => p.Users.ToList().Any(u => u.Uuid == uuid))
+                .Where(p => p.Users.AsEnumerable().Any(u => u.Uuid == uuid))
                 .ToList();
             _logger.LogInformation($"Fetched {projects.Count} projects from database.");
             return projects;

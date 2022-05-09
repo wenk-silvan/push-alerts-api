@@ -19,11 +19,11 @@ namespace PushAlertsApi.Services
             _dbSet = context;
         }
 
-        public Task AddTask(Project project, NewTask newTask)
+        public Task AddTask(Project project, NewTask task)
         {
-            var task = new Task(newTask.Title, newTask.Description, newTask.Source, project.Id, newTask.Payload);
-            var result = _dbSet.Add(task);
-            _logger.LogInformation($"Added new task with uuid: '{task.Uuid}' to project with uuid: '{project.Uuid}'");
+            var newTask = new Task(task.Title, task.Description, task.Source, project.Id, task.Payload);
+            var result = _dbSet.Add(newTask);
+            _logger.LogInformation($"Added new task with uuid: '{newTask.Uuid}' to project with uuid: '{project.Uuid}'");
             return result.Entity;
         }
 
