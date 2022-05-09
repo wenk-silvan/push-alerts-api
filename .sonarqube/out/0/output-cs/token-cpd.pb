@@ -489,7 +489,7 @@ JsonIgnore!!	 
 ;..% &
 }// 	
 }00 
-}11 æ
+}11 Â
 NC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\TaskNotification.cs
 	namespace 	
 PushAlertsApi
@@ -603,61 +603,9 @@ NC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\TaskNotification.cs
 = 
 task 
 ; 
-} 	
-public 
-TaskNotification 
-(  
-string  &
-message' .
-,. /
-string0 6
-title7 <
-,< =
-string> D
-descriptionE P
-,P Q
-stringR X
-sourceY _
-,_ `
-inta d
-	projectIde n
-,n o
-stringp v
-?v w
-payloadx 
-)	 €
-{ 	
-Uuid 
-= 
-Guid 
-. 
-NewGuid 
-(  
-)  !
-;! "
-Message 
-= 
-message 
-; 
-Task 
-= 
-new 
-Task 
-( 
-title !
-,! "
-description# .
-,. /
-source0 6
-,6 7
-	projectId8 A
-,A B
-payloadC J
-)J K
-;K L
-} 	
-}   
-}!! Ÿ
+} 	
+} 
+} Ÿ
 GC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\TaskState.cs
 	namespace 	
 PushAlertsApi

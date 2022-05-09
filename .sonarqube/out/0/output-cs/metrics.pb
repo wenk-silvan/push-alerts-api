@@ -8,9 +8,11 @@ EC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\NewTask.cs 8j
 EC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Project.cs 8jr	
 ‚~
 BC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Task.cs 8jr 	
-!#%&'()*+,-./01‚'()*+,-.…
-NC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\TaskNotification.cs 8jr	
- !‚Z
+!#%&'()*+,-./01‚'()*+,-.|
+NC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\TaskNotification.cs 
+8
+jr	
+‚Z
 GC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\TaskState.csjr
 	
 l
