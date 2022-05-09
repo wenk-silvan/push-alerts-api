@@ -1,0 +1,8 @@
+﻿C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Credentials.cs
+C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\NewTask.cs
+C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Project.cs
+C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Task.cs
+C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\TaskNotification.cs
+C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\TaskState.cs
+C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Token.cs
+C:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\User.cs

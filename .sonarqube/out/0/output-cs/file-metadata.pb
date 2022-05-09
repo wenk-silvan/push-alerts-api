@@ -1,0 +1,12 @@
+R
+IC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Credentials.csutf-8N
+EC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\NewTask.csutf-8N
+EC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Project.csutf-8K
+BC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Task.csutf-8W
+NC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\TaskNotification.csutf-8P
+GC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\TaskState.csutf-8L
+CC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\Token.csutf-8K
+BC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\User.csutf-8}
+rC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\obj\Debug\net6.0\PushAlertsApi.Models.GlobalUsings.g.csutf-8…
+zC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.csutf-8{
+pC:\Development\hslu\baa\PushAlertsApi\PushAlertsApi.Models\obj\Debug\net6.0\PushAlertsApi.Models.AssemblyInfo.csutf-8
