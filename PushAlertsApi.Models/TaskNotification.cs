@@ -22,12 +22,5 @@
             Message = message;
             Task = task;
         }
-
-        public TaskNotification(string message, string title, string description, string source, int projectId, string? payload)
-        {
-            Uuid = Guid.NewGuid();
-            Message = message;
-            Task = new Task(title, description, source, projectId, payload);
-        }
     }
 }
