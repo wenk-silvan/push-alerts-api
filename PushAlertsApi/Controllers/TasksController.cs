@@ -59,7 +59,8 @@ namespace PushAlertsApi.Controllers
         {
             try
             {
-                var project = _projectsService.GetProject(uuid);
+                if (!Guid.TryParse(uuid, out var uuidParsed)) return BadRequest("Invalid uuid");
+                var project = _projectsService.GetProject(uuidParsed);
                 var tasks = project.Tasks;
                 tasks?.ForEach(t => t.UserEmail = t.User?.Email);
                 return Ok(project.Tasks);
@@ -86,13 +87,14 @@ namespace PushAlertsApi.Controllers
         {
             try
             {
-                var project = _projectsService.GetProject(uuidProject);
+                if (!Guid.TryParse(uuidProject, out var result)) return BadRequest("Invalid uuid");
+                var project = _projectsService.GetProject(result);
                 var newTask = _tasksService.AddTask(project, task);
                 await _context.SaveChangesAsync();
                 _notificationsService.NotifyUsers($"Project {project.Name} has new task from {task.Source}", project,
                     newTask);
-                var seconds = int.TryParse(_configuration.GetSection("ReminderSeconds").Value, out var result)
-                    ? result
+                var seconds = int.TryParse(_configuration.GetSection("ReminderSeconds").Value, out var sec)
+                    ? sec
                     : 1800;
                 var timer = new System.Timers.Timer(seconds * 1000);
                 timer.Elapsed += ((sender, args) => OnReminderJobTimerFinish(timer, newTask.Uuid));
@@ -117,8 +119,10 @@ namespace PushAlertsApi.Controllers
         {
             try
             {
-                var user = _usersService.GetUserByUuid(uuidUser);
-                _tasksService.AssignTask(uuidTask, user);
+                if (!Guid.TryParse(uuidTask, out var uuidTaskParsed) ||
+                    !Guid.TryParse(uuidUser, out var uuidUserParsed)) return BadRequest("Invalid uuid");
+                var user = _usersService.GetUserByUuid(uuidUserParsed);
+                _tasksService.AssignTask(uuidTaskParsed, user);
                 _context.SaveChanges();
                 return Ok();
             }
@@ -139,7 +143,8 @@ namespace PushAlertsApi.Controllers
         {
             try
             {
-                _tasksService.CloseTask(uuidTask, status);
+                if (!Guid.TryParse(uuidTask, out var parsedUuidTask)) return BadRequest("Invalid uuid");
+                _tasksService.CloseTask(parsedUuidTask, status);
                 _context.SaveChanges();
                 return Ok();
             }
@@ -160,7 +165,7 @@ namespace PushAlertsApi.Controllers
             // Create new database context and tasks service because this gets executed in a separate thread.
             using var scope = _serviceScopeFactory.CreateScope();
             using var currentDbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-            var task = new TasksService(currentDbContext.Tasks).GetTask(taskUuid.ToString());
+            var task = new TasksService(currentDbContext.Tasks).GetTask(taskUuid);
             var project = new ProjectsService(currentDbContext.Projects).GetProject(task.ProjectId);
             if (task.Status == TaskState.Opened)
             {

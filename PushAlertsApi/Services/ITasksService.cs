@@ -23,20 +23,20 @@ namespace PushAlertsApi.Services
         /// </summary>
         /// <param name="uuid"></param>
         /// <param name="user"></param>
-        public void AssignTask(string uuid, User user);
+        public void AssignTask(Guid uuid, User user);
 
         /// <summary>
         /// Closes the task with the given uuid and set state to done or rejected
         /// </summary>
         /// <param name="uuid"></param>
         /// <param name="status"></param>
-        public void CloseTask(string uuid, TaskState status);
+        public void CloseTask(Guid uuid, TaskState status);
 
         /// <summary>
         /// Returns the task with the given Uuid
         /// </summary>
         /// <param name="uuid">A unique identifier for a task</param>
         /// <returns></returns>
-        public Task GetTask(string uuid);
+        public Task GetTask(Guid uuid);
     }
 }

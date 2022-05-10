@@ -18,26 +18,25 @@ namespace PushAlertsApi.Services
             _dbSet = context;
         }
 
-        public ICollection<Project> GetAllProjects(string uuidUser)
+        public ICollection<Project> GetAllProjects(Guid uuidUser)
         {
-            var uuid = Guid.TryParse(uuidUser, out var result) ? result : Guid.Empty;
             var projects = _dbSet
-                .Where(p => p.Users.AsEnumerable().Any(u => u.Uuid == uuid))
+                .Where(p => p.Users.AsEnumerable().Any(u => u.Uuid == uuidUser))
                 .ToList();
             _logger.LogInformation($"Fetched {projects.Count} projects from database.");
             return projects;
         }
 
-        public Project GetProject(string uuid)
+        public Project GetProject(Guid uuid)
         {
-            var project = _dbSet.Single(p => p.Uuid == Guid.Parse(uuid));
+            var project = _dbSet.Single(p => p.Uuid == uuid);
             _logger.LogInformation($"Fetched project from database with uuid: '{uuid}'.");
             return project;
         }
 
         public Project GetProject(int id)
         {
-            var project = _dbSet.First(p => p.Id == id);
+            var project = _dbSet.Single(p => p.Id == id);
             _logger.LogInformation($"Fetched project from database with id: '{id}'.");
             return project;
         }

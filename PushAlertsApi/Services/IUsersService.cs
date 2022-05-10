@@ -13,7 +13,7 @@ namespace PushAlertsApi.Services
         /// </summary>
         /// <param name="uuid">A unique identifier for a user</param>
         /// <returns></returns>
-        public User GetUserByUuid(string uuid);
+        public User GetUserByUuid(Guid uuid);
 
         /// <summary>
         /// Returns the user for the given email

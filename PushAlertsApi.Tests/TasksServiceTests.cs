@@ -27,7 +27,7 @@ namespace PushAlertsApi.Tests
                 new Task("Task B", "Description B", "Unit Test", 1, null)
             };
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            string uuid = expectedTasks.First().Uuid.ToString();
+            var uuid = expectedTasks.First().Uuid;
 
             // Act 
             tasksService.AssignTask(uuid, alice);
@@ -54,7 +54,7 @@ namespace PushAlertsApi.Tests
                 new Task("Task B", "Description B", "Unit Test", 1, null)
             };
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            string uuid = expectedTasks.First().Uuid.ToString();
+            var uuid = expectedTasks.First().Uuid;
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => tasksService.AssignTask(uuid, alice));
@@ -72,7 +72,7 @@ namespace PushAlertsApi.Tests
                 new Task("Task B", "Description B", "Unit Test", 1, null)
             };
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            string uuid = expectedTasks.First().Uuid.ToString();
+            var uuid = expectedTasks.First().Uuid;
             tasksService.AssignTask(uuid, alice);
 
             // Act & Assert
@@ -91,7 +91,7 @@ namespace PushAlertsApi.Tests
                 new Task("Task B", "Description B", "Unit Test", 1, null)
             };
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            string uuid = expectedTasks.First().Uuid.ToString();
+            var uuid = expectedTasks.First().Uuid;
             tasksService.AssignTask(uuid, alice);
             tasksService.CloseTask(uuid, TaskState.Done);
 
@@ -111,7 +111,7 @@ namespace PushAlertsApi.Tests
                 new Task("Task B", "Description B", "Unit Test", 1, null)
             };
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            string uuid = expectedTasks.First().Uuid.ToString();
+            var uuid = expectedTasks.First().Uuid;
             tasksService.AssignTask(uuid, alice);
             tasksService.CloseTask(uuid, TaskState.Rejected);
 
@@ -132,7 +132,7 @@ namespace PushAlertsApi.Tests
                 new Task("Task B", "Description B", "Unit Test", 1, null)
             };
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            string uuid = expectedTasks.First().Uuid.ToString();
+            var uuid = expectedTasks.First().Uuid;
 
             // Act 
             tasksService.AssignTask(uuid, alice);
@@ -160,7 +160,7 @@ namespace PushAlertsApi.Tests
                 new Task("Task B", "Description B", "Unit Test", 1, null)
             };
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            string uuid = expectedTasks.First().Uuid.ToString();
+            var uuid = expectedTasks.First().Uuid;
 
             // Act 
             tasksService.AssignTask(uuid, alice);
@@ -188,7 +188,7 @@ namespace PushAlertsApi.Tests
                 new Task("Task B", "Description B", "Unit Test", 1, null)
             };
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            string uuid = expectedTasks.First().Uuid.ToString();
+            var uuid = expectedTasks.First().Uuid;
 
             // Act & Assert
             tasksService.AssignTask(uuid, alice);
@@ -207,7 +207,7 @@ namespace PushAlertsApi.Tests
                 new Task("Task B", "Description B", "Unit Test", 1, null)
             };
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            string uuid = expectedTasks.First().Uuid.ToString();
+            var uuid = expectedTasks.First().Uuid;
 
             // Act & Assert
             Assert.Throws<InvalidOperationException>(() => tasksService.CloseTask(uuid, expectedState));
@@ -225,7 +225,7 @@ namespace PushAlertsApi.Tests
                 new Task("Task B", "Description B", "Unit Test", 1, null)
             };
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            string uuid = expectedTasks.First().Uuid.ToString();
+            var uuid = expectedTasks.First().Uuid;
 
             // Act & Assert
             tasksService.AssignTask(uuid, alice);
@@ -245,7 +245,7 @@ namespace PushAlertsApi.Tests
                 new Task("Task B", "Description B", "Unit Test", 1, null)
             };
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            string uuid = expectedTasks.First().Uuid.ToString();
+            var uuid = expectedTasks.First().Uuid;
 
             // Act & Assert
             tasksService.AssignTask(uuid, alice);
@@ -265,7 +265,7 @@ namespace PushAlertsApi.Tests
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
 
             // Act 
-            string uuid = expectedTasks.First().Uuid.ToString();
+            var uuid = expectedTasks.First().Uuid;
             var actual = tasksService.GetTask(uuid);
 
             // Assert
@@ -284,7 +284,7 @@ namespace PushAlertsApi.Tests
                 new Task("Task B", "Description B", "Unit Test", 1, null)
             };
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            string uuid = Guid.NewGuid().ToString();
+            var uuid = Guid.NewGuid();
 
             // Act & Assert
             Assert.Throws<InvalidOperationException>(() => tasksService.GetTask(uuid));
@@ -296,7 +296,7 @@ namespace PushAlertsApi.Tests
             // Arrange
             List<Task> expectedTasks = new();
             var tasksService = new TasksService(expectedTasks.AsQueryable().BuildMockDbSet());
-            string uuid = Guid.NewGuid().ToString();
+            var uuid = Guid.NewGuid();
 
             // Act & Assert
             Assert.Throws<InvalidOperationException>(() => tasksService.GetTask(uuid));

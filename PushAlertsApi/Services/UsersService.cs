@@ -23,9 +23,9 @@ namespace PushAlertsApi.Services
             _dbSet = context;
         }
 
-        public User GetUserByUuid(string uuid)
+        public User GetUserByUuid(Guid uuid)
         {
-            var user = _dbSet.Single(u => u.Uuid == Guid.Parse(uuid));
+            var user = _dbSet.Single(u => u.Uuid == uuid);
             _logger.LogInformation($"Fetched user by uuid from database with id: '{user.Id}'.");
             return user;
         }

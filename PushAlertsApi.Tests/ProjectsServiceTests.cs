@@ -45,7 +45,7 @@ namespace PushAlertsApi.Tests
 
             // Act
             var projectsService = new ProjectsService(expected.AsQueryable().BuildMockDbSet());
-            var actual = projectsService.GetAllProjects(alice.Uuid.ToString()).ToList();
+            var actual = projectsService.GetAllProjects(alice.Uuid).ToList();
 
             // Assert
             Assert.IsNotNull(actual);
@@ -63,7 +63,7 @@ namespace PushAlertsApi.Tests
 
             // Act
             var projectsService = new ProjectsService(expected.AsQueryable().BuildMockDbSet());
-            var actual = projectsService.GetAllProjects(Guid.NewGuid().ToString()).ToList();
+            var actual = projectsService.GetAllProjects(Guid.NewGuid()).ToList();
 
             // Assert
             Assert.IsNotNull(actual);
@@ -98,7 +98,7 @@ namespace PushAlertsApi.Tests
 
             // Act
             var projectsService = new ProjectsService(expected.AsQueryable().BuildMockDbSet());
-            var actual = projectsService.GetProject("817756de-31f7-4537-844d-6beea0159002");
+            var actual = projectsService.GetProject(Guid.Parse("817756de-31f7-4537-844d-6beea0159002"));
 
             // Assert
             Assert.IsNotNull(actual);
@@ -117,7 +117,7 @@ namespace PushAlertsApi.Tests
 
             // Assert
             Assert.Throws<InvalidOperationException>(() =>
-                projectsService.GetProject("817756de-31f7-4537-844d-6beea0159002"));
+                projectsService.GetProject(Guid.Parse("817756de-31f7-4537-844d-6beea0159002")));
         }
 
         [Test]
@@ -150,8 +150,8 @@ namespace PushAlertsApi.Tests
             var projectsService = new ProjectsService(expected.AsQueryable().BuildMockDbSet());
 
             // Assert
-            Assert.Throws<FormatException>(() =>
-                projectsService.GetProject("-"));
+            Assert.Throws<InvalidOperationException>(() =>
+                projectsService.GetProject(Guid.Empty));
         }
     }
 }

@@ -51,7 +51,7 @@ namespace PushAlertsApi.Tests
 
             // Act
             var usersService = new UsersService(expected.AsQueryable().BuildMockDbSet());
-            var actual = usersService.GetUserByUuid(alice.Uuid.ToString());
+            var actual = usersService.GetUserByUuid(alice.Uuid);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -84,7 +84,7 @@ namespace PushAlertsApi.Tests
 
             // Act & Assert
             var usersService = new UsersService(expected.AsQueryable().BuildMockDbSet());
-            Assert.Throws<InvalidOperationException>(() => usersService.GetUserByUuid(alice.Uuid.ToString()));
+            Assert.Throws<InvalidOperationException>(() => usersService.GetUserByUuid(alice.Uuid));
         }
 
         [Test]

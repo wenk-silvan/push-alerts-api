@@ -27,7 +27,7 @@ namespace PushAlertsApi.Services
             return result.Entity;
         }
 
-        public void AssignTask(string uuid, User user)
+        public void AssignTask(Guid uuid, User user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
             var dbTask = GetTask(uuid);
@@ -40,7 +40,7 @@ namespace PushAlertsApi.Services
             _logger.LogInformation($"Assigned task with uuid: '{uuid}' to user with uuid: '{user.Uuid}'");
         }
 
-        public void CloseTask(string uuid, TaskState status)
+        public void CloseTask(Guid uuid, TaskState status)
         {
             if (status != TaskState.Done && status != TaskState.Rejected)
             {
@@ -61,9 +61,9 @@ namespace PushAlertsApi.Services
             _logger.LogInformation($"Closed task with uuid: '{uuid}' and set state to: '{dbTask.Status}'");
         }
 
-        public Task GetTask(string uuid)
+        public Task GetTask(Guid uuid)
         {
-            var task = _dbSet.First(t => t.Uuid == Guid.Parse(uuid));
+            var task = _dbSet.First(t => t.Uuid == uuid);
             _logger.LogInformation($"Fetched one task from DB for uuid: '{uuid}' with id: '{task.Id}'");
             return task;
         }

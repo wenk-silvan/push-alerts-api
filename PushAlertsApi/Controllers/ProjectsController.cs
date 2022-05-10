@@ -35,7 +35,8 @@ namespace PushAlertsApi.Controllers
         {
             try
             {
-                return Ok(_projectsService.GetAllProjects(uuidUser));
+                if (!Guid.TryParse(uuidUser, out var uuidUserParsed)) return BadRequest("Invalid uuid");
+                return Ok(_projectsService.GetAllProjects(uuidUserParsed));
             }
             catch (Exception ex)
             {

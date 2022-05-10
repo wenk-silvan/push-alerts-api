@@ -13,14 +13,14 @@ namespace PushAlertsApi.Services
         /// </summary>
         /// <param name="uuidUser">Unique identifier for a user</param>
         /// <returns></returns>
-        public ICollection<Project> GetAllProjects(string uuidUser);
+        public ICollection<Project> GetAllProjects(Guid uuidUser);
 
         /// <summary>
         /// Returns the project with the given Uuid.
         /// </summary>
         /// <param name="uuid">Unique identifier for a project</param>
         /// <returns></returns>
-        public Project GetProject(string uuid);
+        public Project GetProject(Guid uuid);
 
         /// <summary>
         /// Returns the project with the given ID.
