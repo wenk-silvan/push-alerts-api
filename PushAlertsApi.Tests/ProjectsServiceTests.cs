@@ -18,8 +18,8 @@ namespace PushAlertsApi.Tests
         [Test]
         public void GetAllProjects_Normal()
         {
-            var alice = new User("alice@schindler.com");
-            var bob = new User("bob@schindler.com");
+            var alice = new User("alice@company.com");
+            var bob = new User("bob@company.com");
             // Arrange
             List<Project> expected = new()
             {
