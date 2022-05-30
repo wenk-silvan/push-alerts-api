@@ -86,3 +86,6 @@ This project integrates the OpenAPI standard with Swagger. A detailed documentat
 
 ## Authors
 - Silvan Wenk [silvan.wenk@gmail.com]
+
+## Version
+- v1.0.0
